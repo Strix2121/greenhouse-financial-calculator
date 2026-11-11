@@ -153,7 +153,7 @@
         }
         .chart-container {
             position: relative;
-            height: 220px;
+            height: 230px;
             margin-top: 10px;
         }
         .section-title {
@@ -172,20 +172,20 @@
     
     <div class="header-banner">
         <h1>حاسبة البيوت البلاستيكية المالية</h1>
-        <p>نظام تحكم كامل مع حساب حصة المزارع من الأرباح</p>
+        <p>نظام تحليل مالي متكامل مع رسوم بيانية متعددة</p>
     </div>
 
     <div class="scenarios-bar">
-        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 90, 40, 25, 15, 6, 20)">نموذج أساسي</button>
-        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 50, 30, 20, 6, 20)">عروة ممتازة</button>
-        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 80, 35, 20, 10, 6, 20)">سوق منخفض</button>
+        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 80, 150, 120, 80, 40, 25, 15, 6, 20)">نموذج أساسي</button>
+        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 180, 150, 100, 50, 30, 20, 6, 20)">عروة ممتازة</button>
+        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 60, 120, 100, 60, 35, 20, 10, 6, 20)">سوق منخفض</button>
     </div>
 
     <div class="grid">
         
         <!-- لوحة التحكم -->
         <div class="card">
-            <h2>إعدادات المشروع</h2>
+            <h2>إعدادات المشروع والإنتاج</h2>
             
             <div class="control-group">
                 <div class="control-header">
@@ -219,15 +219,41 @@
                 <input type="range" id="exchangeRateRange" min="1000" max="50000" step="50" value="14650" oninput="syncFromRange('exchangeRate')">
             </div>
 
-            <div class="section-title">تكاليف البيت الواحد ($) والنسب</div>
+            <div class="section-title">🌱 تفصيل مستلزمات الزراعة للبيت الواحد ($)</div>
 
             <div class="control-group">
                 <div class="control-header">
-                    <label for="costInputs">مستلزمات الزراعة:</label>
-                    <input type="number" id="costInputs" class="number-input" value="90" step="5" oninput="syncFromInput('costInputs')">
+                    <label for="costSeeds">أثمان البذور والشتل:</label>
+                    <input type="number" id="costSeeds" class="number-input" value="80" step="5" oninput="syncFromInput('costSeeds')">
                 </div>
-                <input type="range" id="costInputsRange" min="0" max="500" step="5" value="90" oninput="syncFromRange('costInputs')">
+                <input type="range" id="costSeedsRange" min="0" max="300" step="5" value="80" oninput="syncFromRange('costSeeds')">
             </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costPlastic">النايلون الزراعي (التغطية):</label>
+                    <input type="number" id="costPlastic" class="number-input" value="150" step="10" oninput="syncFromInput('costPlastic')">
+                </div>
+                <input type="range" id="costPlasticRange" min="0" max="400" step="10" value="150" oninput="syncFromRange('costPlastic')">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costFertilizers">الأسمدة والمغذيات:</label>
+                    <input type="number" id="costFertilizers" class="number-input" value="120" step="10" oninput="syncFromInput('costFertilizers')">
+                </div>
+                <input type="range" id="costFertilizersRange" min="0" max="400" step="10" value="120" oninput="syncFromRange('costFertilizers')">
+            </div>
+
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costPesticides">الأدوية والمبيدات الزراعية:</label>
+                    <input type="number" id="costPesticides" class="number-input" value="80" step="5" oninput="syncFromInput('costPesticides')">
+                </div>
+                <input type="range" id="costPesticidesRange" min="0" max="300" step="5" value="80" oninput="syncFromRange('costPesticides')">
+            </div>
+
+            <div class="section-title">📦 التكاليف التشغيلية والنسب ($)</div>
 
             <div class="control-group">
                 <div class="control-header">
@@ -261,7 +287,6 @@
                 <input type="range" id="commissionRateRange" min="0" max="20" step="0.5" value="6" oninput="syncFromRange('commissionRate')">
             </div>
 
-            <!-- البند الجديد: نسبة المزارع من الأرباح -->
             <div class="control-group">
                 <div class="control-header">
                     <label for="farmerShareRate">حصة المزارع من الأرباح (%):</label>
@@ -271,7 +296,7 @@
             </div>
         </div>
 
-        <!-- النتائج والرسوم -->
+        <!-- النتائج والرسوم البيانية -->
         <div>
             <div class="card">
                 <h2>الملخص المالي وصافي الأرباح</h2>
@@ -296,7 +321,6 @@
                         <span>صافي الربح الإجمالي (قبل الحصة):</span>
                         <span id="resGrossProfit">$0</span>
                     </div>
-                    <!-- تفصيل حصة المزارع وصافي المالك -->
                     <div class="result-item" style="background: #f1f5f9; padding: 8px; border-radius: 6px; margin-top: 5px;">
                         <span style="font-weight: 700; color: #334155;">حصة المزارع من الربح:</span>
                         <span id="resFarmerShareAmount" style="color: #d97706;">$0</span>
@@ -312,10 +336,19 @@
                 </div>
             </div>
 
+            <!-- الرسم البياني الأول: دائرة توزيع المصاريف -->
             <div class="card">
-                <h2>توزيع المصاريف</h2>
+                <h2>توزيع المصاريف والتكاليف</h2>
                 <div class="chart-container">
                     <canvas id="costChart"></canvas>
+                </div>
+            </div>
+
+            <!-- الرسم البياني الثاني: مقارنة الإيرادات والتكاليف والأرباح -->
+            <div class="card">
+                <h2>مقارنة العوائد والتكاليف والأرباح ($)</h2>
+                <div class="chart-container">
+                    <canvas id="comparisonChart"></canvas>
                 </div>
             </div>
         </div>
@@ -325,6 +358,7 @@
 
 <script>
     let costChartInstance = null;
+    let comparisonChartInstance = null;
 
     function syncFromInput(id) {
         const val = document.getElementById(id).value;
@@ -346,7 +380,11 @@
         const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
         const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
         
-        const costInputs = parseFloat(document.getElementById('costInputs').value) || 0;
+        const costSeeds = parseFloat(document.getElementById('costSeeds').value) || 0;
+        const costPlastic = parseFloat(document.getElementById('costPlastic').value) || 0;
+        const costFertilizers = parseFloat(document.getElementById('costFertilizers').value) || 0;
+        const costPesticides = parseFloat(document.getElementById('costPesticides').value) || 0;
+        
         const costPackaging = parseFloat(document.getElementById('costPackaging').value) || 0;
         const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
         const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
@@ -357,14 +395,13 @@
         const priceUsd = priceSyp / exchangeRate;
         const totalRevenueUsd = totalKg * priceUsd;
 
-        const costPerHouseTotal = costInputs + costPackaging + costTransport + costMaintenance;
+        const costPerHouseTotal = costSeeds + costPlastic + costFertilizers + costPesticides + costPackaging + costTransport + costMaintenance;
         const totalFarmCostUsd = houses * costPerHouseTotal;
         const commissionUsd = totalRevenueUsd * commissionRate;
         
         const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
         const grossProfitUsd = totalRevenueUsd - totalExpensesUsd;
 
-        // حساب حصة المزارع وصافي ربح المالك
         const farmerShareAmount = grossProfitUsd > 0 ? grossProfitUsd * farmerShareRate : 0;
         const ownerNetProfitUsd = grossProfitUsd - farmerShareAmount;
 
@@ -380,20 +417,33 @@
         document.getElementById('resNetProfit').innerText = '$' + Math.round(ownerNetProfitUsd).toLocaleString();
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
-        updateChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
+        // تحديث الرسوم البيانية
+        updateCharts(
+            houses * costSeeds, 
+            houses * costPlastic, 
+            houses * costFertilizers, 
+            houses * costPesticides, 
+            houses * costPackaging, 
+            houses * costTransport, 
+            houses * costMaintenance,
+            totalRevenueUsd,
+            totalFarmCostUsd + commissionUsd,
+            ownerNetProfitUsd
+        );
     }
 
-    function updateChart(inputs, packaging, transport, maintenance) {
-        const ctx = document.getElementById('costChart').getContext('2d');
+    function updateCharts(seeds, plastic, fertilizers, pesticides, packaging, transport, maintenance, revenue, totalCost, netProfit) {
+        // الرسم الأول: دائرة توزيع المصاريف
+        const ctx1 = document.getElementById('costChart').getContext('2d');
         if (costChartInstance) costChartInstance.destroy();
 
-        costChartInstance = new Chart(ctx, {
+        costChartInstance = new Chart(ctx1, {
             type: 'doughnut',
             data: {
-                labels: ['مستلزمات الزراعة', 'الفلين والتعبئة', 'النقل والتعتيل', 'الصيانة والطوارئ'],
+                labels: ['البذور والشتل', 'النايلون الزراعي', 'الأسمدة والمغذيات', 'المبيدات والأدوية', 'الفلين والتعبئة', 'النقل والتعتيل', 'الصيانة والطوارئ'],
                 datasets: [{
-                    data: [inputs, packaging, transport, maintenance],
-                    backgroundColor: ['#059669', '#3b82f6', '#f59e0b', '#ef4444'],
+                    data: [seeds, plastic, fertilizers, pesticides, packaging, transport, maintenance],
+                    backgroundColor: ['#059669', '#10b981', '#3b82f6', '#6366f1', '#f59e0b', '#ec4899', '#ef4444'],
                     borderWidth: 2
                 }]
             },
@@ -405,13 +455,48 @@
                 }
             }
         });
+
+        // الرسم الثاني: أعمدة مقارنة الإيرادات، التكاليف، والأرباح
+        const ctx2 = document.getElementById('comparisonChart').getContext('2d');
+        if (comparisonChartInstance) comparisonChartInstance.destroy();
+
+        comparisonChartInstance = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: ['إجمالي المبيعات', 'إجمالي التكاليف', 'صافي ربح المالك'],
+                datasets: [{
+                    label: 'المبلغ بالدولار ($)',
+                    data: [Math.round(revenue), Math.round(totalCost), Math.round(netProfit)],
+                    backgroundColor: ['#3b82f6', '#ef4444', '#059669'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#f1f5f9' },
+                        ticks: { font: { family: 'Cairo' } }
+                    },
+                    x: {
+                        grid: { display: false },
+                        ticks: { font: { family: 'Cairo' } }
+                    }
+                }
+            }
+        });
     }
 
-    function setScenario(h, y, p, ex, ci, cp, ct, cm, cr, fs) {
+    function setScenario(h, y, p, ex, cs, cp, cf, cpe, cpack, ctrans, cmaint, cr, fs) {
         const fields = {
             'houses': h, 'yieldPerHouse': y, 'priceSyp': p, 'exchangeRate': ex,
-            'costInputs': ci, 'costPackaging': cp, 'costTransport': ct,
-            'costMaintenance': cm, 'commissionRate': cr, 'farmerShareRate': fs
+            'costSeeds': cs, 'costPlastic': cp, 'costFertilizers': cf, 'costPesticides': cpe,
+            'costPackaging': cpack, 'costTransport': ctrans, 'costMaintenance': cmaint,
+            'commissionRate': cr, 'farmerShareRate': fs
         };
         for (let id in fields) {
             document.getElementById(id).value = fields[id];
