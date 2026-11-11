@@ -25,7 +25,7 @@
             text-align: right;
         }
         .container {
-            max-width: 1350px;
+            max-width: 1300px;
             margin: 0 auto;
         }
         .header-banner {
@@ -132,9 +132,9 @@
             font-size: 0.9rem;
             color: #334155;
         }
-        .number-input {
-            width: 110px;
-            padding: 5px 8px;
+        .number-input, select {
+            width: 130px;
+            padding: 6px 10px;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             font-size: 0.95rem;
@@ -144,7 +144,7 @@
             color: var(--primary);
             background: #fff;
         }
-        .number-input:focus {
+        .number-input:focus, select:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
@@ -192,45 +192,6 @@
             border-bottom: 1px dashed var(--border-color);
             padding-bottom: 5px;
         }
-        /* تصميم جدول الصفحة الثانية الشامل والمحاسبي */
-        .houses-table-container {
-            max-height: 550px;
-            overflow-y: auto;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            margin-top: 10px;
-        }
-        .houses-table {
-            width: 100%;
-            border-collapse: collapse;
-            white-space: nowrap;
-        }
-        .houses-table th, .houses-table td {
-            border-bottom: 1px solid var(--border-color);
-            border-left: 1px solid #f1f5f9;
-            padding: 8px 6px;
-            text-align: center;
-            font-size: 0.8rem;
-        }
-        .houses-table th {
-            background: #f1f5f9;
-            color: #334155;
-            font-weight: 700;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .houses-table input {
-            width: 70px;
-            padding: 4px;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            text-align: center;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
-            color: var(--primary);
-            font-size: 0.85rem;
-        }
         .btn-action {
             background: var(--primary);
             color: white;
@@ -250,13 +211,13 @@
     
     <div class="header-banner">
         <h1>حاسبة البيوت البلاستيكية المالية</h1>
-        <p>نظام محاسبي متكامل يدعم الحاسبة العامة وسجل المحاسبة الفردي للبيوت</p>
+        <p>نظام إداري متكامل مع إمكانية عرض المحاسبة لكل بيت عبر قائمة منسدلة</p>
     </div>
 
-    <!-- أزرار التنقل بين الصفحتين -->
+    <!-- أزرار التنقل بين الصفحات -->
     <div class="nav-tabs">
         <button class="tab-btn active" id="tab1Btn" onclick="switchPage(1)">الصفحة الأولى: الحاسبة العامة والتحكم</button>
-        <button class="tab-btn" id="tab2Btn" onclick="switchPage(2)">الصفحة الثانية: سجل المحاسبة الفردي للبيوت (بيت بيت)</button>
+        <button class="tab-btn" id="tab2Btn" onclick="switchPage(2)">الصفحة الثانية: سجل البيوت الفردية (بالقائمة المنسدلة)</button>
     </div>
 
     <!-- ==================== الصفحة الأولى ==================== -->
@@ -438,45 +399,115 @@
 
     </div>
 
-    <!-- ==================== الصفحة الثانية: نظام محاسبة البيوت المتكامل ==================== -->
+    <!-- ==================== الصفحة الثانية: سجل المحاسبة بالقائمة المنسدلة ==================== -->
     <div id="page2" class="page-section">
         <div class="card">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
-                <h2 style="margin:0; border:none;">سجل المحاسبة الفردي للبيوت (كل بيت تفصيلياً)</h2>
-                <div>
-                    <button class="btn-action" onclick="addHouse()">+ إضافة بيت جديد</button>
-                    <button class="btn-action" style="background:#ef4444;" onclick="removeHouse()">حذف الأخير</button>
+                <h2 style="margin:0; border:none;">محاسبة وتفاصيل البيت المختار</h2>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <label for="houseSelect" style="font-weight:700;">اختر البيت:</label>
+                    <select id="houseSelect" onchange="loadSelectedHouse()">
+                        <!-- تعبئة القائمة برمجياً -->
+                    </select>
+                    <button class="btn-action" onclick="addNewHouse()">+ بيت جديد</button>
+                    <button class="btn-action" style="background:#ef4444;" onclick="deleteCurrentHouse()">حذف هذا البيت</button>
                 </div>
             </div>
-            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">يتم حساب التكاليف، سعر الصرف، عمولة سوق الهال (القمسيون)، وحصة المزارع لكل بيت على حدة، مع استعراض الإجمالي بالأسفل:</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">اختر رقم البيت من القائمة بالأعلى لتعديل تفاصيله وعرض حساباته المالية المستقلة:</p>
             
-            <div class="houses-table-container">
-                <table class="houses-table" id="accountingTable">
-                    <thead>
-                        <tr>
-                            <th>البيت</th>
-                            <th>الإنتاج (كغ)</th>
-                            <th>البذور ($)</th>
-                            <th>النايلون ($)</th>
-                            <th>الأسمدة ($)</th>
-                            <th>المبيدات ($)</th>
-                            <th>التشغيل ($)</th>
-                            <th>إجمالي التكلفة ($)</th>
-                            <th>المبيعات ($)</th>
-                            <th>القمسيون ($)</th>
-                            <th>صافي الربح ($)</th>
-                            <th>حصة المزارع ($)</th>
-                            <th>صافي المالك ($)</th>
-                        </tr>
-                    </thead>
-                    <tbody id="housesTableBody">
-                        <!-- تعبئة تفصيلية -->
-                    </tbody>
-                    <tfoot id="housesTableFooter" style="background: #f8fafc; font-weight: 800; position: sticky; bottom: 0; z-index: 10;">
-                        <!-- مجاميع محاسبية نهائية -->
-                    </tfoot>
-                </table>
+            <div class="grid">
+                <!-- خانات إدخال تفاصيل البيت المختار -->
+                <div style="background: #f8fafc; padding: 15px; border-radius: 10px; border: 1px solid var(--border-color);">
+                    <div class="section-title" style="margin-top:0;">إدخالات البيت المحدد</div>
+                    
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>إنتاج هذا البيت (كغ):</label>
+                            <input type="number" id="singleYield" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>أثمان البذور والشتل ($):</label>
+                            <input type="number" id="singleSeeds" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>النايلون الزراعي ($):</label>
+                            <input type="number" id="singlePlastic" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>الأسمدة والمغذيات ($):</label>
+                            <input type="number" id="singleFertilizers" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>المبيدات والأدوية ($):</label>
+                            <input type="number" id="singlePesticides" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="control-header">
+                            <label>تكاليف التشغيل الأخرى ($):</label>
+                            <input type="number" id="singleOther" class="number-input" oninput="saveCurrentHouseData()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نتائج وحسابات البيت المختار المالية -->
+                <div class="results-box">
+                    <div class="section-title" style="margin-top:0; color:var(--primary);">النتيجة المالية لهذا البيت</div>
+                    <div class="result-item">
+                        <span>إجمالي تكلفة هذا البيت:</span>
+                        <span id="singleResCost" style="color:#ef4444;">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>إجمالي مبيعات هذا البيت:</span>
+                        <span id="singleResRev" style="color:#3b82f6;">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>عمولة سوق الهال (القمسيون):</span>
+                        <span id="singleResComm">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>صافي الربح الإجمالي:</span>
+                        <span id="singleResGross">$0</span>
+                    </div>
+                    <div class="result-item" style="background: #e6f4ea; padding: 6px; border-radius: 4px;">
+                        <span>حصة المزارع من الربح:</span>
+                        <span id="singleResFarmer" style="color:#d97706;">$0</span>
+                    </div>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 8px; margin-top: 8px;">
+                        <span style="font-weight: 800;">صافي ربح المالك لهذا البيت:</span>
+                        <span id="singleResOwner" style="font-size: 1.15rem; color:#059669;">$0</span>
+                    </div>
+                </div>
             </div>
+
+            <!-- إجمالي كل البيوت المجمع بالأسفل -->
+            <div style="margin-top: 20px; background: #065f46; color: white; padding: 15px; border-radius: 10px; display: flex; justify-content: space-around; flex-wrap: wrap; text-align: center; gap: 15px;">
+                <div>
+                    <div style="font-size: 0.85rem; opacity: 0.9;">إجمالي عدد البيوت</div>
+                    <div id="allHousesCount" style="font-size: 1.2rem; font-weight: 800;">0</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85rem; opacity: 0.9;">إجمالي الإنتاج لكل المزرعة</div>
+                    <div id="allHousesKg" style="font-size: 1.2rem; font-weight: 800;">0 كغ</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85rem; opacity: 0.9;">إجمالي التكاليف الكلية</div>
+                    <div id="allHousesCost" style="font-size: 1.2rem; font-weight: 800;">$0</div>
+                </div>
+                <div>
+                    <div style="font-size: 0.85rem; opacity: 0.9;">إجمالي أرباح المالك النهائية</div>
+                    <div id="allHousesOwnerProfit" style="font-size: 1.2rem; font-weight: 800;">$0</div>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -502,22 +533,89 @@
 
         document.getElementById('page' + pageNum).classList.add('active');
         document.getElementById('tab' + pageNum + 'Btn').classList.add('active');
+        if (pageNum === 2) initHouseSelect();
     }
 
-    function renderTable() {
-        const tbody = document.getElementById('housesTableBody');
-        const tfoot = document.getElementById('housesTableFooter');
-        tbody.innerHTML = '';
+    function initHouseSelect() {
+        const select = document.getElementById('houseSelect');
+        const currentSelected = select.value;
+        select.innerHTML = '';
+        housesData.forEach((h, index) => {
+            const opt = document.createElement('option');
+            opt.value = index;
+            opt.innerText = `البيت رقم ${index + 1}`;
+            select.appendChild(opt);
+        });
+        if (currentSelected && currentSelected < housesData.length) {
+            select.value = currentSelected;
+        }
+        loadSelectedHouse();
+    }
 
+    function loadSelectedHouse() {
+        const index = document.getElementById('houseSelect').value;
+        if (index === "" || !housesData[index]) return;
+        const h = housesData[index];
+
+        document.getElementById('singleYield').value = h.yield;
+        document.getElementById('singleSeeds').value = h.seeds;
+        document.getElementById('singlePlastic').value = h.plastic;
+        document.getElementById('singleFertilizers').value = h.fertilizers;
+        document.getElementById('singlePesticides').value = h.pesticides;
+        document.getElementById('singleOther').value = h.other;
+
+        calculateSingleHouse(h);
+    }
+
+    function saveCurrentHouseData() {
+        const index = document.getElementById('houseSelect').value;
+        if (index === "" || !housesData[index]) return;
+
+        housesData[index].yield = parseFloat(document.getElementById('singleYield').value) || 0;
+        housesData[index].seeds = parseFloat(document.getElementById('singleSeeds').value) || 0;
+        housesData[index].plastic = parseFloat(document.getElementById('singlePlastic').value) || 0;
+        housesData[index].fertilizers = parseFloat(document.getElementById('singleFertilizers').value) || 0;
+        housesData[index].pesticides = parseFloat(document.getElementById('singlePesticides').value) || 0;
+        housesData[index].other = parseFloat(document.getElementById('singleOther').value) || 0;
+
+        calculateSingleHouse(housesData[index]);
+        updateAllHousesSummary();
+    }
+
+    function calculateSingleHouse(h) {
+        const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
+        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
+        const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
+        const farmerShareRate = (parseFloat(document.getElementById('farmerShareRate').value) || 0) / 100;
+
+        const priceUsd = priceSyp / exchangeRate;
+        const hCost = h.seeds + h.plastic + h.fertilizers + h.pesticides + h.other;
+        const hRev = h.yield * priceUsd;
+        const hComm = hRev * commissionRate;
+        const hGross = hRev - (hCost + hComm);
+        const hFarmer = hGross > 0 ? hGross * farmerShareRate : 0;
+        const hOwner = hGross - hFarmer;
+
+        document.getElementById('singleResCost').innerText = '$' + Math.round(hCost);
+        document.getElementById('singleResRev').innerText = '$' + Math.round(hRev);
+        document.getElementById('singleResComm').innerText = '$' + Math.round(hComm);
+        document.getElementById('singleResGross').innerText = '$' + Math.round(hGross);
+        document.getElementById('singleResFarmer').innerText = '$' + Math.round(hFarmer);
+        document.getElementById('singleResOwner').innerText = '$' + Math.round(hOwner);
+
+        updateAllHousesSummary();
+    }
+
+    function updateAllHousesSummary() {
         const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
         const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
         const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
         const farmerShareRate = (parseFloat(document.getElementById('farmerShareRate').value) || 0) / 100;
         const priceUsd = priceSyp / exchangeRate;
 
-        let sumKg = 0, sumCost = 0, sumRev = 0, sumComm = 0, sumGross = 0, sumFarmer = 0, sumOwner = 0;
+        let totalKg = 0, totalCost = 0, totalOwner = 0;
 
-        housesData.forEach((h, index) => {
+        housesData.forEach(h => {
             const hCost = h.seeds + h.plastic + h.fertilizers + h.pesticides + h.other;
             const hRev = h.yield * priceUsd;
             const hComm = hRev * commissionRate;
@@ -525,66 +623,30 @@
             const hFarmer = hGross > 0 ? hGross * farmerShareRate : 0;
             const hOwner = hGross - hFarmer;
 
-            sumKg += h.yield;
-            sumCost += hCost;
-            sumRev += hRev;
-            sumComm += hComm;
-            sumGross += hGross;
-            sumFarmer += hFarmer;
-            sumOwner += hOwner;
-
-            tbody.innerHTML += `
-                <tr>
-                    <td style="font-weight:700;">بيت ${index + 1}</td>
-                    <td><input type="number" value="${h.yield}" oninput="updateHouse(${index}, 'yield', this.value)"></td>
-                    <td><input type="number" value="${h.seeds}" oninput="updateHouse(${index}, 'seeds', this.value)"></td>
-                    <td><input type="number" value="${h.plastic}" oninput="updateHouse(${index}, 'plastic', this.value)"></td>
-                    <td><input type="number" value="${h.fertilizers}" oninput="updateHouse(${index}, 'fertilizers', this.value)"></td>
-                    <td><input type="number" value="${h.pesticides}" oninput="updateHouse(${index}, 'pesticides', this.value)"></td>
-                    <td><input type="number" value="${h.other}" oninput="updateHouse(${index}, 'other', this.value)"></td>
-                    <td style="color:#ef4444; font-weight:bold;">$${Math.round(hCost)}</td>
-                    <td style="color:#3b82f6; font-weight:bold;">$${Math.round(hRev)}</td>
-                    <td>$${Math.round(hComm)}</td>
-                    <td>$${Math.round(hGross)}</td>
-                    <td style="color:#d97706;">$${Math.round(hFarmer)}</td>
-                    <td style="color:#059669; font-weight:bold;">$${Math.round(hOwner)}</td>
-                </tr>
-            `;
+            totalKg += h.yield;
+            totalCost += hCost;
+            totalOwner += hOwner;
         });
 
-        // شريط المجاميع السفلي للجدول المحاسبي
-        tfoot.innerHTML = `
-            <tr>
-                <td style="padding:10px;">الإجمالي الكلي</td>
-                <td>${sumKg.toLocaleString()} كغ</td>
-                <td colspan="5">البيوت: ${housesData.length} بيت</td>
-                <td style="color:#ef4444;">$${Math.round(sumCost).toLocaleString()}</td>
-                <td style="color:#3b82f6;">$${Math.round(sumRev).toLocaleString()}</td>
-                <td>$${Math.round(sumComm).toLocaleString()}</td>
-                <td>$${Math.round(sumGross).toLocaleString()}</td>
-                <td style="color:#d97706;">$${Math.round(sumFarmer).toLocaleString()}</td>
-                <td style="color:#059669;">$${Math.round(sumOwner).toLocaleString()}</td>
-            </tr>
-        `;
-
-        calculate();
+        document.getElementById('allHousesCount').innerText = housesData.length + ' بيت';
+        document.getElementById('allHousesKg').innerText = totalKg.toLocaleString() + ' كغ';
+        document.getElementById('allHousesCost').innerText = '$' + Math.round(totalCost).toLocaleString();
+        document.getElementById('allHousesOwnerProfit').innerText = '$' + Math.round(totalOwner).toLocaleString();
     }
 
-    function updateHouse(index, field, value) {
-        housesData[index][field] = parseFloat(value) || 0;
-        renderTable();
-    }
-
-    function addHouse() {
+    function addNewHouse() {
         const last = housesData.length > 0 ? housesData[housesData.length - 1] : { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 };
         housesData.push({ ...last });
-        renderTable();
+        initHouseSelect();
+        document.getElementById('houseSelect').value = housesData.length - 1;
+        loadSelectedHouse();
     }
 
-    function removeHouse() {
-        if (housesData.length > 1) {
-            housesData.pop();
-            renderTable();
+    function deleteCurrentHouse() {
+        const index = document.getElementById('houseSelect').value;
+        if (housesData.length > 1 && index !== "") {
+            housesData.splice(index, 1);
+            initHouseSelect();
         }
     }
 
@@ -592,14 +654,14 @@
         const val = document.getElementById(id).value;
         const range = document.getElementById(id + 'Range');
         if (range) range.value = val;
-        renderTable();
+        calculate();
     }
 
     function syncFromRange(id) {
         const range = document.getElementById(id + 'Range');
         const input = document.getElementById(id);
         if (input) input.value = range.value;
-        renderTable();
+        calculate();
     }
 
     function calculate() {
@@ -655,6 +717,7 @@
             totalFarmCostUsd + commissionUsd,
             ownerNetProfitUsd
         );
+        updateAllHousesSummary();
     }
 
     function updateCharts(seeds, plastic, fertilizers, pesticides, other, revenue, totalCost, netProfit) {
@@ -727,11 +790,12 @@
             const range = document.getElementById(id + 'Range');
             if (range) range.value = fields[id];
         }
-        renderTable();
+        calculate();
     }
 
     window.onload = function() {
-        renderTable();
+        calculate();
+        initHouseSelect();
     };
 </script>
 
