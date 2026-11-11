@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الحاسبة المالية للبيوت البلاستيكية</title>
+    <title>الحاسبة المالية الشاملة للبيوت البلاستيكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -25,7 +25,7 @@
             text-align: right;
         }
         .container {
-            max-width: 1250px;
+            max-width: 1350px;
             margin: 0 auto;
         }
         .header-banner {
@@ -45,34 +45,12 @@
             font-size: 0.95rem;
             opacity: 0.9;
         }
-        .scenarios-bar {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-        }
-        .btn-scenario {
-            background: #ffffff;
-            border: 1px solid var(--border-color);
-            padding: 8px 15px;
-            border-radius: 8px;
-            font-weight: 700;
-            font-family: 'Cairo', sans-serif;
-            cursor: pointer;
-            color: #334155;
-        }
-        .btn-scenario:hover {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 0.8fr;
             gap: 20px;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 950px) {
             .grid { grid-template-columns: 1fr; }
         }
         .card {
@@ -153,7 +131,7 @@
         }
         .chart-container {
             position: relative;
-            height: 230px;
+            height: 220px;
             margin-top: 10px;
         }
         .section-title {
@@ -164,6 +142,56 @@
             border-bottom: 1px dashed var(--border-color);
             padding-bottom: 5px;
         }
+        /* تصميم جدول تفصيل البيوت الفردية */
+        .houses-table-container {
+            max-height: 450px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+        .houses-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .houses-table th, .houses-table td {
+            border-bottom: 1px solid var(--border-color);
+            padding: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+        .houses-table th {
+            background: #f1f5f9;
+            color: #334155;
+            font-weight: 700;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .houses-table input {
+            width: 80px;
+            padding: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            text-align: center;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .btn-action {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .btn-action:hover {
+            background: #047857;
+        }
     </style>
 </head>
 <body>
@@ -172,137 +200,83 @@
     
     <div class="header-banner">
         <h1>حاسبة البيوت البلاستيكية المالية</h1>
-        <p>نظام تحليل مالي متكامل مع رسوم بيانية متعددة</p>
-    </div>
-
-    <div class="scenarios-bar">
-        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 80, 150, 120, 80, 40, 25, 15, 6, 20)">نموذج أساسي</button>
-        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 180, 150, 100, 50, 30, 20, 6, 20)">عروة ممتازة</button>
-        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 60, 120, 100, 60, 35, 20, 10, 6, 20)">سوق منخفض</button>
+        <p>سجل تفصيلي مستقل لكل بيت بلاستيكي مع التجميع التلقائي للتكاليف والأرباح</p>
     </div>
 
     <div class="grid">
         
-        <!-- لوحة التحكم -->
+        <!-- قسم تفاصيل البيوت الفردية والمدخلات -->
         <div class="card">
-            <h2>إعدادات المشروع والإنتاج</h2>
-            
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="houses">عدد البيوت:</label>
-                    <input type="number" id="houses" class="number-input" value="60" oninput="syncFromInput('houses')">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin:0; border:none;">سجل البيوت البلاستيكية (بيت بيت)</h2>
+                <div>
+                    <button class="btn-action" onclick="addHouse()">+ إضافة بيت جديد</button>
+                    <button class="btn-action" style="background:#ef4444;" onclick="removeHouse()">حذف الأخير</button>
                 </div>
-                <input type="range" id="housesRange" min="1" max="200" step="1" value="60" oninput="syncFromRange('houses')">
+            </div>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">يمكنك تعديل إنتاج وتكاليف كل بيت على حدة، وسيقوم النظام بجمعها كلياً:</p>
+            
+            <div class="houses-table-container">
+                <table class="houses-table" id="housesTable">
+                    <thead>
+                        <tr>
+                            <th>البيت #</th>
+                            <th>الإنتاج (كغ)</th>
+                            <th>البذور ($)</th>
+                            <th>النايلون ($)</th>
+                            <th>الأسمدة ($)</th>
+                            <th>المبيدات ($)</th>
+                            <th>التشغيل ($)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="housesTableBody">
+                        <!-- يتم تعبئتها برمجياً -->
+                    </tbody>
+                </table>
             </div>
 
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="yieldPerHouse">إنتاج البيت الواحد (كغ):</label>
-                    <input type="number" id="yieldPerHouse" class="number-input" value="5000" step="100" oninput="syncFromInput('yieldPerHouse')">
-                </div>
-                <input type="range" id="yieldPerHouseRange" min="1000" max="15000" step="100" value="5000" oninput="syncFromRange('yieldPerHouse')">
-            </div>
+            <div class="section-title" style="margin-top:20px;">الأسعار العامة والنسب المئوية</div>
 
             <div class="control-group">
                 <div class="control-header">
                     <label for="priceSyp">سعر الكيلو (ل.س):</label>
-                    <input type="number" id="priceSyp" class="number-input" value="6000" step="100" oninput="syncFromInput('priceSyp')">
+                    <input type="number" id="priceSyp" class="number-input" value="6000" step="100" oninput="calculate()">
                 </div>
-                <input type="range" id="priceSypRange" min="500" max="30000" step="100" value="6000" oninput="syncFromRange('priceSyp')">
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <label for="exchangeRate">سعر الصرف (ل.س/$):</label>
-                    <input type="number" id="exchangeRate" class="number-input" value="14650" step="50" oninput="syncFromInput('exchangeRate')">
+                    <input type="number" id="exchangeRate" class="number-input" value="14650" step="50" oninput="calculate()">
                 </div>
-                <input type="range" id="exchangeRateRange" min="1000" max="50000" step="50" value="14650" oninput="syncFromRange('exchangeRate')">
-            </div>
-
-            <div class="section-title">🌱 تفصيل مستلزمات الزراعة للبيت الواحد ($)</div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costSeeds">أثمان البذور والشتل:</label>
-                    <input type="number" id="costSeeds" class="number-input" value="80" step="5" oninput="syncFromInput('costSeeds')">
-                </div>
-                <input type="range" id="costSeedsRange" min="0" max="300" step="5" value="80" oninput="syncFromRange('costSeeds')">
-            </div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costPlastic">النايلون الزراعي (التغطية):</label>
-                    <input type="number" id="costPlastic" class="number-input" value="150" step="10" oninput="syncFromInput('costPlastic')">
-                </div>
-                <input type="range" id="costPlasticRange" min="0" max="400" step="10" value="150" oninput="syncFromRange('costPlastic')">
-            </div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costFertilizers">الأسمدة والمغذيات:</label>
-                    <input type="number" id="costFertilizers" class="number-input" value="120" step="10" oninput="syncFromInput('costFertilizers')">
-                </div>
-                <input type="range" id="costFertilizersRange" min="0" max="400" step="10" value="120" oninput="syncFromRange('costFertilizers')">
-            </div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costPesticides">الأدوية والمبيدات الزراعية:</label>
-                    <input type="number" id="costPesticides" class="number-input" value="80" step="5" oninput="syncFromInput('costPesticides')">
-                </div>
-                <input type="range" id="costPesticidesRange" min="0" max="300" step="5" value="80" oninput="syncFromRange('costPesticides')">
-            </div>
-
-            <div class="section-title">📦 التكاليف التشغيلية والنسب ($)</div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costPackaging">الفلين والتعبئة:</label>
-                    <input type="number" id="costPackaging" class="number-input" value="40" step="5" oninput="syncFromInput('costPackaging')">
-                </div>
-                <input type="range" id="costPackagingRange" min="0" max="200" step="5" value="40" oninput="syncFromRange('costPackaging')">
-            </div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costTransport">النقل والتعتيل:</label>
-                    <input type="number" id="costTransport" class="number-input" value="25" step="5" oninput="syncFromInput('costTransport')">
-                </div>
-                <input type="range" id="costTransportRange" min="0" max="200" step="5" value="25" oninput="syncFromRange('costTransport')">
-            </div>
-
-            <div class="control-group">
-                <div class="control-header">
-                    <label for="costMaintenance">الصيانة والطوارئ:</label>
-                    <input type="number" id="costMaintenance" class="number-input" value="15" step="5" oninput="syncFromInput('costMaintenance')">
-                </div>
-                <input type="range" id="costMaintenanceRange" min="0" max="200" step="5" value="15" oninput="syncFromRange('costMaintenance')">
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <label for="commissionRate">عمولة سوق الهال (%):</label>
-                    <input type="number" id="commissionRate" class="number-input" value="6" step="0.5" oninput="syncFromInput('commissionRate')">
+                    <input type="number" id="commissionRate" class="number-input" value="6" step="0.5" oninput="calculate()">
                 </div>
-                <input type="range" id="commissionRateRange" min="0" max="20" step="0.5" value="6" oninput="syncFromRange('commissionRate')">
             </div>
 
             <div class="control-group">
                 <div class="control-header">
                     <label for="farmerShareRate">حصة المزارع من الأرباح (%):</label>
-                    <input type="number" id="farmerShareRate" class="number-input" value="20" step="1" oninput="syncFromInput('farmerShareRate')">
+                    <input type="number" id="farmerShareRate" class="number-input" value="20" step="1" oninput="calculate()">
                 </div>
-                <input type="range" id="farmerShareRateRange" min="0" max="50" step="1" value="20" oninput="syncFromRange('farmerShareRate')">
             </div>
         </div>
 
-        <!-- النتائج والرسوم البيانية -->
+        <!-- الملخص المالي والرسوم البيانية -->
         <div>
             <div class="card">
-                <h2>الملخص المالي وصافي الأرباح</h2>
+                <h2>الملخص المالي الإجمالي</h2>
                 <div class="results-box">
                     <div class="result-item">
-                        <span>إجمالي الإنتاج:</span>
+                        <span>إجمالي عدد البيوت:</span>
+                        <span id="resTotalHouses">0 بيت</span>
+                    </div>
+                    <div class="result-item">
+                        <span>إجمالي الإنتاج الكلي:</span>
                         <span id="resTotalKg">0 كيلو</span>
                     </div>
                     <div class="result-item">
@@ -336,15 +310,15 @@
                 </div>
             </div>
 
-            <!-- الرسم البياني الأول: دائرة توزيع المصاريف -->
+            <!-- الرسم البياني الأول: توزيع المصاريف -->
             <div class="card">
-                <h2>توزيع المصاريف والتكاليف</h2>
+                <h2>توزيع المصاريف الإجمالية</h2>
                 <div class="chart-container">
                     <canvas id="costChart"></canvas>
                 </div>
             </div>
 
-            <!-- الرسم البياني الثاني: مقارنة الإيرادات والتكاليف والأرباح -->
+            <!-- الرسم البياني الثاني: مقارنة العوائد -->
             <div class="card">
                 <h2>مقارنة العوائد والتكاليف والأرباح ($)</h2>
                 <div class="chart-container">
@@ -357,46 +331,83 @@
 </div>
 
 <script>
+    // مصفوفة افتراضية لـ 5 بيوت كمثال اولي، ويمكن للمستخدم إضافتها أو تعديلها
+    let housesData = [
+        { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
+        { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
+        { yield: 4800, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
+        { yield: 5200, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
+        { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 }
+    ];
+
     let costChartInstance = null;
     let comparisonChartInstance = null;
 
-    function syncFromInput(id) {
-        const val = document.getElementById(id).value;
-        const range = document.getElementById(id + 'Range');
-        if (range) range.value = val;
+    function renderTable() {
+        const tbody = document.getElementById('housesTableBody');
+        tbody.innerHTML = '';
+        housesData.forEach((house, index) => {
+            tbody.innerHTML += `
+                <tr>
+                    <td style="font-weight:700;">بيت ${index + 1}</td>
+                    <td><input type="number" value="${house.yield}" oninput="updateHouse(${index}, 'yield', this.value)"></td>
+                    <td><input type="number" value="${house.seeds}" oninput="updateHouse(${index}, 'seeds', this.value)"></td>
+                    <td><input type="number" value="${house.plastic}" oninput="updateHouse(${index}, 'plastic', this.value)"></td>
+                    <td><input type="number" value="${house.fertilizers}" oninput="updateHouse(${index}, 'fertilizers', this.value)"></td>
+                    <td><input type="number" value="${house.pesticides}" oninput="updateHouse(${index}, 'pesticides', this.value)"></td>
+                    <td><input type="number" value="${house.other}" oninput="updateHouse(${index}, 'other', this.value)"></td>
+                </tr>
+            `;
+        });
         calculate();
     }
 
-    function syncFromRange(id) {
-        const range = document.getElementById(id + 'Range');
-        const input = document.getElementById(id);
-        if (input) input.value = range.value;
+    function updateHouse(index, field, value) {
+        housesData[index][field] = parseFloat(value) || 0;
         calculate();
+    }
+
+    function addHouse() {
+        // ينسخ آخر بيت أضيف لتسهيل الإدخال
+        const last = housesData.length > 0 ? housesData[housesData.length - 1] : { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 };
+        housesData.push({ ...last });
+        renderTable();
+    }
+
+    function removeHouse() {
+        if (housesData.length > 1) {
+            housesData.pop();
+            renderTable();
+        }
     }
 
     function calculate() {
-        const houses = parseFloat(document.getElementById('houses').value) || 0;
-        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value) || 0;
+        let totalKg = 0;
+        let totalSeeds = 0;
+        let totalPlastic = 0;
+        let totalFertilizers = 0;
+        let totalPesticides = 0;
+        let totalOther = 0;
+
+        housesData.forEach(h => {
+            totalKg += h.yield;
+            totalSeeds += h.seeds;
+            totalPlastic += h.plastic;
+            totalFertilizers += h.fertilizers;
+            totalPesticides += h.pesticides;
+            totalOther += h.other;
+        });
+
+        const totalHouses = housesData.length;
+        const totalFarmCostUsd = totalSeeds + totalPlastic + totalFertilizers + totalPesticides + totalOther;
+
         const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
         const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
-        
-        const costSeeds = parseFloat(document.getElementById('costSeeds').value) || 0;
-        const costPlastic = parseFloat(document.getElementById('costPlastic').value) || 0;
-        const costFertilizers = parseFloat(document.getElementById('costFertilizers').value) || 0;
-        const costPesticides = parseFloat(document.getElementById('costPesticides').value) || 0;
-        
-        const costPackaging = parseFloat(document.getElementById('costPackaging').value) || 0;
-        const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
-        const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
         const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
         const farmerShareRate = (parseFloat(document.getElementById('farmerShareRate').value) || 0) / 100;
 
-        const totalKg = houses * yieldPerHouse;
         const priceUsd = priceSyp / exchangeRate;
         const totalRevenueUsd = totalKg * priceUsd;
-
-        const costPerHouseTotal = costSeeds + costPlastic + costFertilizers + costPesticides + costPackaging + costTransport + costMaintenance;
-        const totalFarmCostUsd = houses * costPerHouseTotal;
         const commissionUsd = totalRevenueUsd * commissionRate;
         
         const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
@@ -408,6 +419,8 @@
         const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate || 1));
         const breakEvenSyp = breakEvenUsd * exchangeRate;
 
+        // عرض النتائج
+        document.getElementById('resTotalHouses').innerText = totalHouses + ' بيت';
         document.getElementById('resTotalKg').innerText = totalKg.toLocaleString() + ' كيلو';
         document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
         document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
@@ -417,33 +430,20 @@
         document.getElementById('resNetProfit').innerText = '$' + Math.round(ownerNetProfitUsd).toLocaleString();
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
-        // تحديث الرسوم البيانية
-        updateCharts(
-            houses * costSeeds, 
-            houses * costPlastic, 
-            houses * costFertilizers, 
-            houses * costPesticides, 
-            houses * costPackaging, 
-            houses * costTransport, 
-            houses * costMaintenance,
-            totalRevenueUsd,
-            totalFarmCostUsd + commissionUsd,
-            ownerNetProfitUsd
-        );
+        updateCharts(totalSeeds, totalPlastic, totalFertilizers, totalPesticides, totalOther, totalRevenueUsd, totalExpensesUsd, ownerNetProfitUsd);
     }
 
-    function updateCharts(seeds, plastic, fertilizers, pesticides, packaging, transport, maintenance, revenue, totalCost, netProfit) {
-        // الرسم الأول: دائرة توزيع المصاريف
+    function updateCharts(seeds, plastic, fertilizers, pesticides, other, revenue, totalCost, netProfit) {
         const ctx1 = document.getElementById('costChart').getContext('2d');
         if (costChartInstance) costChartInstance.destroy();
 
         costChartInstance = new Chart(ctx1, {
             type: 'doughnut',
             data: {
-                labels: ['البذور والشتل', 'النايلون الزراعي', 'الأسمدة والمغذيات', 'المبيدات والأدوية', 'الفلين والتعبئة', 'النقل والتعتيل', 'الصيانة والطوارئ'],
+                labels: ['البذور والشتل', 'النايلون', 'الأسمدة', 'المبيدات', 'التشغيل والأخرى'],
                 datasets: [{
-                    data: [seeds, plastic, fertilizers, pesticides, packaging, transport, maintenance],
-                    backgroundColor: ['#059669', '#10b981', '#3b82f6', '#6366f1', '#f59e0b', '#ec4899', '#ef4444'],
+                    data: [seeds, plastic, fertilizers, pesticides, other],
+                    backgroundColor: ['#059669', '#10b981', '#3b82f6', '#6366f1', '#f59e0b'],
                     borderWidth: 2
                 }]
             },
@@ -456,7 +456,6 @@
             }
         });
 
-        // الرسم الثاني: أعمدة مقارنة الإيرادات، التكاليف، والأرباح
         const ctx2 = document.getElementById('comparisonChart').getContext('2d');
         if (comparisonChartInstance) comparisonChartInstance.destroy();
 
@@ -491,22 +490,7 @@
         });
     }
 
-    function setScenario(h, y, p, ex, cs, cp, cf, cpe, cpack, ctrans, cmaint, cr, fs) {
-        const fields = {
-            'houses': h, 'yieldPerHouse': y, 'priceSyp': p, 'exchangeRate': ex,
-            'costSeeds': cs, 'costPlastic': cp, 'costFertilizers': cf, 'costPesticides': cpe,
-            'costPackaging': cpack, 'costTransport': ctrans, 'costMaintenance': cmaint,
-            'commissionRate': cr, 'farmerShareRate': fs
-        };
-        for (let id in fields) {
-            document.getElementById(id).value = fields[id];
-            const range = document.getElementById(id + 'Range');
-            if (range) range.value = fields[id];
-        }
-        calculate();
-    }
-
-    window.onload = calculate;
+    window.onload = renderTable;
 </script>
 
 </body>
