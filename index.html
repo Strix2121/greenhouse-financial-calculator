@@ -4,23 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الحاسبة المالية المتقدمة للبيوت البلاستيكية</title>
+    <!-- استدعاء خط Cairo العربي الاحترافي لضمان جمال ووضوح الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #059669;
             --primary-light: #10b981;
-            --bg-color: #f1f5f9;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
-            --text-muted: #475569;
-            --border-color: #cbd5e1;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
         }
         body {
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 25px;
             direction: rtl;
             text-align: right;
         }
@@ -29,49 +31,54 @@
             margin: 0 auto;
         }
         .header-banner {
-            background: linear-gradient(135deg, #047857, #059669);
+            background: linear-gradient(135deg, #065f46, #059669);
             color: white;
-            padding: 25px;
+            padding: 30px;
             border-radius: 16px;
             text-align: center;
             margin-bottom: 25px;
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px -5px rgba(5, 150, 105, 0.2);
         }
         .header-banner h1 {
-            margin: 0 0 8px 0;
-            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 800;
         }
         .header-banner p {
             margin: 0;
-            opacity: 0.9;
-            font-size: 1rem;
+            opacity: 0.95;
+            font-size: 1.1rem;
+            font-weight: 400;
         }
         .scenarios-bar {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             justify-content: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
             flex-wrap: wrap;
         }
         .btn-scenario {
             background: #ffffff;
-            border: 1px solid #cbd5e1;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-weight: 600;
+            border: 2px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Cairo', sans-serif;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.2s ease;
             color: #334155;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .btn-scenario:hover {
-            background: #059669;
+            background: var(--primary);
             color: white;
-            border-color: #059669;
+            border-color: var(--primary);
+            transform: translateY(-2px);
         }
         .grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 25px;
         }
         @media (max-width: 900px) {
             .grid {
@@ -80,44 +87,48 @@
         }
         .card {
             background: var(--card-bg);
-            padding: 20px;
+            padding: 25px;
             border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 10px;
+            padding-bottom: 12px;
             color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-weight: 700;
         }
         .slider-group {
-            margin-bottom: 18px;
+            margin-bottom: 22px;
         }
         .slider-header {
             display: flex;
             justify-content: space-between;
-            font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 5px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #1e293b;
         }
         .slider-header span:last-child {
             color: var(--primary);
+            font-weight: 800;
         }
         input[type="range"] {
             width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #e2e8f0;
+            outline: none;
             accent-color: var(--primary);
             cursor: pointer;
         }
         .results-box {
             background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            padding: 15px;
+            border: 1px solid var(--border-color);
+            padding: 20px;
             border-radius: 12px;
             margin-top: 15px;
         }
@@ -125,20 +136,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
+            margin-bottom: 14px;
+            font-size: 1.1rem;
         }
         .result-item span:first-child {
             color: var(--text-muted);
+            font-weight: 600;
         }
         .result-item span:last-child {
-            font-weight: bold;
+            font-weight: 800;
             color: var(--primary);
         }
         .chart-container {
             position: relative;
-            height: 280px;
-            margin-top: 10px;
+            height: 300px;
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -146,10 +158,10 @@
 
 <div class="container">
     
-    <!-- بانر العنوان -->
+    <!-- البانر -->
     <div class="header-banner">
         <h1>المحاسب الزراعي للبيوت البلاستيكية</h1>
-        <p>حاسبة متخصصة لجدوى زراعة البندورة المحمية</p>
+        <p>حاسبة متخصصة لجدوى زراعة البندورة المحمية (منطقة بانياس والساحل السوري)</p>
     </div>
 
     <!-- أزرار السيناريوهات السريعة -->
@@ -161,7 +173,7 @@
 
     <div class="grid">
         
-        <!-- القسم الأيمن: أشرطة التحكم (Sliders) -->
+        <!-- القسم الأيمن: التحكم بالـ Sliders -->
         <div class="card">
             <h2>⚙️ إعدادات ومحددات المشروع</h2>
             
@@ -197,11 +209,11 @@
                 <input type="range" id="exchangeRate" min="10000" max="25000" step="250" value="14650" oninput="calculate()">
             </div>
 
-            <hr style="border:0; border-top:1px solid #e2e8f0; margin: 20px 0;">
+            <hr style="border:0; border-top:1px solid var(--border-color); margin: 25px 0;">
 
             <div class="slider-group">
                 <div class="slider-header">
-                    <label for="costPerHouse">إجمالي تكاليف البيت الواحد (زراعة + فلين + نقل + طوارئ):</label>
+                    <label for="costPerHouse">إجمالي تكاليف البيت الواحد (زراعة+فلين+نقل+طوارئ):</label>
                     <span id="costVal">$170</span>
                 </div>
                 <input type="range" id="costPerHouse" min="100" max="300" step="10" value="170" oninput="calculate()">
@@ -229,18 +241,17 @@
                         <span>عمولة سوق الهال (6%):</span>
                         <span id="resCommission">$0</span>
                     </div>
-                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
-                        <span style="font-size: 1.15rem; color: #0f172a; font-weight: bold;">صافي الربح النهائي:</span>
-                        <span id="resNetProfit" style="font-size: 1.3rem; color: #059669;">$0</span>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 15px; margin-top: 15px;">
+                        <span style="font-size: 1.2rem; color: var(--text-main); font-weight: 800;">صافي الربح النهائي:</span>
+                        <span id="resNetProfit" style="font-size: 1.4rem; color: #059669;">$0</span>
                     </div>
-                    <div class="result-item">
+                    <div class="result-item" style="margin-top: 10px;">
                         <span>نقطة التعادل (للكيلو الواحد):</span>
                         <span id="resBreakEven" style="color: #2563eb;">0 ل.س</span>
                     </div>
                 </div>
             </div>
 
-            <!-- الرسم البياني المنحني مثل صورتك -->
             <div class="card">
                 <h2>📊 منحنى حساسية الأرباح حسب سعر الكيلو</h2>
                 <div class="chart-container">
@@ -256,7 +267,6 @@
     let profitChartInstance = null;
 
     function calculate() {
-        // قراءة قيم الـ Sliders
         const houses = parseFloat(document.getElementById('houses').value);
         const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value);
         const priceSyp = parseFloat(document.getElementById('priceSyp').value);
@@ -264,14 +274,12 @@
         const costPerHouse = parseFloat(document.getElementById('costPerHouse').value);
         const commissionRate = 0.06;
 
-        // تحديث النصوص بجانب الـ Sliders
         document.getElementById('housesVal').innerText = houses;
         document.getElementById('yieldVal').innerText = yieldPerHouse.toLocaleString() + ' كغ';
         document.getElementById('priceVal').innerText = priceSyp.toLocaleString() + ' ل.س';
         document.getElementById('exchangeVal').innerText = exchangeRate.toLocaleString() + ' ل.س';
         document.getElementById('costVal').innerText = '$' + costPerHouse;
 
-        // العمليات الحسابية
         const totalKg = houses * yieldPerHouse;
         const priceUsd = priceSyp / exchangeRate;
         const totalRevenueUsd = totalKg * priceUsd;
@@ -284,7 +292,6 @@
         const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate));
         const breakEvenSyp = breakEvenUsd * exchangeRate;
 
-        // عرض النتائج
         document.getElementById('resTotalKg').innerText = totalKg.toLocaleString() + ' كيلو';
         document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
         document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
@@ -292,14 +299,11 @@
         document.getElementById('resNetProfit').innerText = '$' + Math.round(netProfitUsd).toLocaleString();
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
-        // تحديث الرسم البياني الخطي
-        updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate, priceSyp);
+        updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate);
     }
 
-    function updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate, currentPrice) {
+    function updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate) {
         const ctx = document.getElementById('profitChart').getContext('2d');
-        
-        // توليد نقاط الأسعار للرسم البياني المنحني
         const prices = [];
         const profits = [];
         const totalKg = houses * yieldPerHouse;
@@ -326,10 +330,10 @@
                     label: 'صافي الربح ($)',
                     data: profits,
                     borderColor: '#059669',
-                    backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                    backgroundColor: 'rgba(5, 150, 105, 0.08)',
                     borderWidth: 3,
                     fill: true,
-                    tension: 0.3
+                    tension: 0.35
                 }]
             },
             options: {
@@ -340,10 +344,12 @@
                 },
                 scales: {
                     y: {
-                        grid: { color: '#f1f5f9' }
+                        grid: { color: '#f1f5f9' },
+                        ticks: { font: { family: 'Cairo' } }
                     },
                     x: {
-                        grid: { display: false }
+                        grid: { display: false },
+                        ticks: { font: { family: 'Cairo' } }
                     }
                 }
             }
