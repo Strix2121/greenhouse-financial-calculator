@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الحاسبة المالية المتقدمة للبيوت البلاستيكية</title>
-    <!-- استدعاء خط Cairo الاحترافي -->
+    <title>الحاسبة المالية للبيوت البلاستيكية</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
             --primary: #059669;
-            --primary-light: #10b981;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --border-color: #cbd5e1;
         }
         body {
-            font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+            font-family: 'Cairo', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 25px;
+            padding: 20px;
             direction: rtl;
             text-align: right;
         }
@@ -33,100 +31,100 @@
         .header-banner {
             background: linear-gradient(135deg, #065f46, #059669);
             color: white;
-            padding: 30px;
-            border-radius: 16px;
+            padding: 20px;
+            border-radius: 12px;
             text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 20px -5px rgba(5, 150, 105, 0.2);
+            margin-bottom: 20px;
         }
         .header-banner h1 {
-            margin: 0 0 10px 0;
-            font-size: 2rem;
-            font-weight: 800;
+            margin: 0 0 5px 0;
+            font-size: 1.6rem;
         }
         .header-banner p {
             margin: 0;
-            opacity: 0.95;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            opacity: 0.9;
         }
         .scenarios-bar {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .btn-scenario {
             background: #ffffff;
-            border: 2px solid var(--border-color);
-            padding: 10px 20px;
-            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            padding: 8px 15px;
+            border-radius: 8px;
             font-weight: 700;
             font-family: 'Cairo', sans-serif;
             cursor: pointer;
-            transition: all 0.2s ease;
             color: #334155;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
         .btn-scenario:hover {
             background: var(--primary);
             color: white;
             border-color: var(--primary);
-            transform: translateY(-2px);
         }
         .grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 25px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
         @media (max-width: 900px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
+            .grid { grid-template-columns: 1fr; }
         }
         .card {
             background: var(--card-bg);
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
             border: 1px solid var(--border-color);
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             color: var(--text-main);
-            font-weight: 700;
         }
-        .section-title {
-            font-size: 1.05rem;
-            color: #1e293b;
-            font-weight: 700;
-            margin: 20px 0 15px 0;
-            border-right: 4px solid var(--primary);
-            padding-right: 8px;
+        .control-group {
+            margin-bottom: 15px;
         }
-        .slider-group {
-            margin-bottom: 18px;
-        }
-        .slider-header {
+        .control-header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        label {
             font-weight: 600;
-            font-size: 0.95rem;
-            margin-bottom: 6px;
+            font-size: 0.9rem;
             color: #334155;
         }
-        .slider-header span:last-child {
+        .number-input {
+            width: 110px;
+            padding: 5px 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 0.95rem;
+            font-family: 'Cairo', sans-serif;
+            text-align: center;
+            font-weight: 700;
             color: var(--primary);
-            font-weight: 800;
+            background: #fff;
+        }
+        .number-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.1);
         }
         input[type="range"] {
             width: 100%;
-            height: 7px;
-            border-radius: 5px;
+            height: 6px;
+            border-radius: 3px;
             background: #e2e8f0;
             outline: none;
             accent-color: var(--primary);
@@ -135,16 +133,15 @@
         .results-box {
             background: #f8fafc;
             border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
         }
         .result-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            font-size: 1.05rem;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
         .result-item span:first-child {
             color: var(--text-muted);
@@ -156,8 +153,16 @@
         }
         .chart-container {
             position: relative;
-            height: 250px;
-            margin-top: 15px;
+            height: 220px;
+            margin-top: 10px;
+        }
+        .section-title {
+            font-size: 0.95rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 15px 0 10px 0;
+            border-bottom: 1px dashed var(--border-color);
+            padding-bottom: 5px;
         }
     </style>
 </head>
@@ -166,109 +171,108 @@
 <div class="container">
     
     <div class="header-banner">
-        <h1>المحاسب الزراعي للبيوت البلاستيكية</h1>
-        <p>نظام تحكم كامل مفصل التكاليف والأسعار (منطقة بانياس والساحل السوري)</p>
+        <h1>حاسبة البيوت البلاستيكية المالية</h1>
+        <p>تحكم مرن مع حساب هامش ونسبة أرباح المزارع</p>
     </div>
 
-    <!-- أزرار السيناريوهات -->
     <div class="scenarios-bar">
-        <button class="btn-scenario" onclick="setScenario('excellent')">⭐ عروة ممتازة</button>
-        <button class="btn-scenario" onclick="setScenario('moderate')">📊 عروة متوسطة</button>
-        <button class="btn-scenario" onclick="setScenario('low')">⚠️ سوق منخفض</button>
+        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 90, 40, 25, 15, 6)">نموذج أساسي</button>
+        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 50, 30, 20, 6)">عروة ممتازة</button>
+        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 80, 35, 20, 10, 6)">سوق منخفض</button>
     </div>
 
     <div class="grid">
         
-        <!-- القسم الأيمن: محددات المشروع وتوزيع التكاليف الدقيقة -->
+        <!-- لوحة التحكم -->
         <div class="card">
-            <h2>⚙️ التحكم بالمحددات والإنتاج</h2>
+            <h2>إعدادات المشروع</h2>
             
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="houses">عدد البيوت البلاستيكية:</label>
-                    <span id="housesVal">60</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="houses">عدد البيوت:</label>
+                    <input type="number" id="houses" class="number-input" value="60" oninput="syncFromInput('houses')">
                 </div>
-                <input type="range" id="houses" min="10" max="100" step="5" value="60" oninput="calculate()">
+                <input type="range" id="housesRange" min="1" max="200" step="1" value="60" oninput="syncFromRange('houses')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="yieldPerHouse">إنتاج البيت الواحد (كيلو):</label>
-                    <span id="yieldVal">5,000 كغ</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="yieldPerHouse">إنتاج البيت الواحد (كغ):</label>
+                    <input type="number" id="yieldPerHouse" class="number-input" value="5000" step="100" oninput="syncFromInput('yieldPerHouse')">
                 </div>
-                <input type="range" id="yieldPerHouse" min="3000" max="9000" step="200" value="5000" oninput="calculate()">
+                <input type="range" id="yieldPerHouseRange" min="1000" max="15000" step="100" value="5000" oninput="syncFromRange('yieldPerHouse')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="priceSyp">سعر بيع الكيلو (ل.س):</label>
-                    <span id="priceVal">6,000 ل.س</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="priceSyp">سعر الكيلو (ل.س):</label>
+                    <input type="number" id="priceSyp" class="number-input" value="6000" step="100" oninput="syncFromInput('priceSyp')">
                 </div>
-                <input type="range" id="priceSyp" min="1000" max="15000" step="500" value="6000" oninput="calculate()">
+                <input type="range" id="priceSypRange" min="500" max="30000" step="100" value="6000" oninput="syncFromRange('priceSyp')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="exchangeRate">سعر صرف الدولار (ل.س / $):</label>
-                    <span id="exchangeVal">14,650 ل.س</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="exchangeRate">سعر الصرف (ل.س/$):</label>
+                    <input type="number" id="exchangeRate" class="number-input" value="14650" step="50" oninput="syncFromInput('exchangeRate')">
                 </div>
-                <input type="range" id="exchangeRate" min="10000" max="25000" step="250" value="14650" oninput="calculate()">
+                <input type="range" id="exchangeRateRange" min="1000" max="50000" step="50" value="14650" oninput="syncFromRange('exchangeRate')">
             </div>
 
-            <div class="section-title">📦 تفصيل تكاليف البيت الواحد (بالدولار الأمريكي)</div>
+            <div class="section-title">تكاليف البيت الواحد ($)</div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="costInputs">1. مستلزمات الزراعة (أغراس وأسمدة):</label>
-                    <span id="costInputsVal">$90</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costInputs">مستلزمات الزراعة:</label>
+                    <input type="number" id="costInputs" class="number-input" value="90" step="5" oninput="syncFromInput('costInputs')">
                 </div>
-                <input type="range" id="costInputs" min="40" max="150" step="5" value="90" oninput="calculate()">
+                <input type="range" id="costInputsRange" min="0" max="500" step="5" value="90" oninput="syncFromRange('costInputs')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="costPackaging">2. صناديق الفلين والتعبئة:</label>
-                    <span id="costPackagingVal">$40</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costPackaging">الفلين والتعبئة:</label>
+                    <input type="number" id="costPackaging" class="number-input" value="40" step="5" oninput="syncFromInput('costPackaging')">
                 </div>
-                <input type="range" id="costPackaging" min="20" max="80" step="5" value="40" oninput="calculate()">
+                <input type="range" id="costPackagingRange" min="0" max="200" step="5" value="40" oninput="syncFromRange('costPackaging')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="costTransport">3. أجور النقل والتعتيل:</label>
-                    <span id="costTransportVal">$25</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costTransport">النقل والتعتيل:</label>
+                    <input type="number" id="costTransport" class="number-input" value="25" step="5" oninput="syncFromInput('costTransport')">
                 </div>
-                <input type="range" id="costTransport" min="10" max="60" step="5" value="25" oninput="calculate()">
+                <input type="range" id="costTransportRange" min="0" max="200" step="5" value="25" oninput="syncFromRange('costTransport')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="costMaintenance">4. الصيانة والطوارئ:</label>
-                    <span id="costMaintenanceVal">$15</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="costMaintenance">الصيانة والطوارئ:</label>
+                    <input type="number" id="costMaintenance" class="number-input" value="15" step="5" oninput="syncFromInput('costMaintenance')">
                 </div>
-                <input type="range" id="costMaintenance" min="5" max="40" step="5" value="15" oninput="calculate()">
+                <input type="range" id="costMaintenanceRange" min="0" max="200" step="5" value="15" oninput="syncFromRange('costMaintenance')">
             </div>
 
-            <div class="slider-group">
-                <div class="slider-header">
-                    <label for="commissionRate">5. عمولة سوق الهال (%):</label>
-                    <span id="commissionVal">6%</span>
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="commissionRate">عمولة سوق الهال (%):</label>
+                    <input type="number" id="commissionRate" class="number-input" value="6" step="0.5" oninput="syncFromInput('commissionRate')">
                 </div>
-                <input type="range" id="commissionRate" min="2" max="12" step="0.5" value="6" oninput="calculate()">
+                <input type="range" id="commissionRateRange" min="0" max="20" step="0.5" value="6" oninput="syncFromRange('commissionRate')">
             </div>
         </div>
 
-        <!-- القسم الأيسر: النتائج والرسوم البيانية -->
+        <!-- النتائج والرسوم -->
         <div>
             <div class="card">
-                <h2>📈 الملخص المالي والنتائج</h2>
+                <h2>الملخص المالي وهامش الربح</h2>
                 <div class="results-box">
                     <div class="result-item">
-                        <span>إجمالي الإنتاج الكلي:</span>
+                        <span>إجمالي الإنتاج:</span>
                         <span id="resTotalKg">0 كيلو</span>
                     </div>
                     <div class="result-item">
-                        <span>إجمالي المبيعات الإجمالية:</span>
+                        <span>إجمالي المبيعات:</span>
                         <span id="resTotalRevenue">$0</span>
                     </div>
                     <div class="result-item">
@@ -279,21 +283,26 @@
                         <span>عمولة سوق الهال:</span>
                         <span id="resCommission">$0</span>
                     </div>
-                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 12px; margin-top: 12px;">
-                        <span style="font-size: 1.15rem; color: var(--text-main); font-weight: 800;">صافي الربح النهائي:</span>
-                        <span id="resNetProfit" style="font-size: 1.35rem; color: #059669;">$0</span>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
+                        <span style="font-size: 1.1rem; font-weight: 800;">صافي الربح النهائي:</span>
+                        <span id="resNetProfit" style="font-size: 1.25rem; color: #059669;">$0</span>
+                    </div>
+                    <!-- البند الجديد: نسبة ربح المزارع على التكلفة -->
+                    <div class="result-item" style="background: #e6f4ea; padding: 8px; border-radius: 6px; margin-top: 8px;">
+                        <span style="font-weight: 700; color: #065f46;">نسبة ربح المزارع عالتكلفة:</span>
+                        <span id="resProfitPercentage" style="font-size: 1.15rem; color: #065f46;">0%</span>
                     </div>
                     <div class="result-item" style="margin-top: 8px;">
-                        <span>نقطة التعادل (للكيلو الواحد):</span>
+                        <span>نقطة التعادل للكيلو:</span>
                         <span id="resBreakEven" style="color: #2563eb;">0 ل.س</span>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h2>📊 توزيع تفصيل المصاريف</h2>
+                <h2>توزيع المصاريف</h2>
                 <div class="chart-container">
-                    <canvas id="costBreakdownChart"></canvas>
+                    <canvas id="costChart"></canvas>
                 </div>
             </div>
         </div>
@@ -304,30 +313,32 @@
 <script>
     let costChartInstance = null;
 
+    function syncFromInput(id) {
+        const val = document.getElementById(id).value;
+        const range = document.getElementById(id + 'Range');
+        if (range) range.value = val;
+        calculate();
+    }
+
+    function syncFromRange(id) {
+        const range = document.getElementById(id + 'Range');
+        const input = document.getElementById(id);
+        if (input) input.value = range.value;
+        calculate();
+    }
+
     function calculate() {
-        const houses = parseFloat(document.getElementById('houses').value);
-        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value);
-        const priceSyp = parseFloat(document.getElementById('priceSyp').value);
-        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value);
+        const houses = parseFloat(document.getElementById('houses').value) || 0;
+        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value) || 0;
+        const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
+        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
         
-        const costInputs = parseFloat(document.getElementById('costInputs').value);
-        const costPackaging = parseFloat(document.getElementById('costPackaging').value);
-        const costTransport = parseFloat(document.getElementById('costTransport').value);
-        const costMaintenance = parseFloat(document.getElementById('costMaintenance').value);
-        const commissionRate = parseFloat(document.getElementById('commissionRate').value) / 100;
+        const costInputs = parseFloat(document.getElementById('costInputs').value) || 0;
+        const costPackaging = parseFloat(document.getElementById('costPackaging').value) || 0;
+        const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
+        const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
+        const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
 
-        // تحديث النصوص العلوية للـ Sliders
-        document.getElementById('housesVal').innerText = houses;
-        document.getElementById('yieldVal').innerText = yieldPerHouse.toLocaleString() + ' كغ';
-        document.getElementById('priceVal').innerText = priceSyp.toLocaleString() + ' ل.س';
-        document.getElementById('exchangeVal').innerText = exchangeRate.toLocaleString() + ' ل.س';
-        document.getElementById('costInputsVal').innerText = '$' + costInputs;
-        document.getElementById('costPackagingVal').innerText = '$' + costPackaging;
-        document.getElementById('costTransportVal').innerText = '$' + costTransport;
-        document.getElementById('costMaintenanceVal').innerText = '$' + costMaintenance;
-        document.getElementById('commissionVal').innerText = (commissionRate * 100) + '%';
-
-        // الحسابات
         const totalKg = houses * yieldPerHouse;
         const priceUsd = priceSyp / exchangeRate;
         const totalRevenueUsd = totalKg * priceUsd;
@@ -339,27 +350,27 @@
         const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
         const netProfitUsd = totalRevenueUsd - totalExpensesUsd;
 
-        const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate));
+        // حساب نسبة ربح المزارع على التكاليف الإجمالية بالمئة
+        const totalAllCosts = totalFarmCostUsd + commissionUsd;
+        const profitPercentage = totalAllCosts > 0 ? (netProfitUsd / totalAllCosts) * 100 : 0;
+
+        const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate || 1));
         const breakEvenSyp = breakEvenUsd * exchangeRate;
 
-        // عرض النتائج
         document.getElementById('resTotalKg').innerText = totalKg.toLocaleString() + ' كيلو';
         document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
         document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
         document.getElementById('resCommission').innerText = '$' + Math.round(commissionUsd).toLocaleString();
         document.getElementById('resNetProfit').innerText = '$' + Math.round(netProfitUsd).toLocaleString();
+        document.getElementById('resProfitPercentage').innerText = profitPercentage.toFixed(1) + '%';
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
-        // تحديث الرسم البياني الدائري لتوزيع التكاليف
-        updateCostChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
+        updateChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
     }
 
-    function updateCostChart(inputs, packaging, transport, maintenance) {
-        const ctx = document.getElementById('costBreakdownChart').getContext('2d');
-        
-        if (costChartInstance) {
-            costChartInstance.destroy();
-        }
+    function updateChart(inputs, packaging, transport, maintenance) {
+        const ctx = document.getElementById('costChart').getContext('2d');
+        if (costChartInstance) costChartInstance.destroy();
 
         costChartInstance = new Chart(ctx, {
             type: 'doughnut',
@@ -375,28 +386,22 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { font: { family: 'Cairo', size: 12 } }
-                    }
+                    legend: { position: 'bottom', labels: { font: { family: 'Cairo', size: 11 } } }
                 }
             }
         });
     }
 
-    function setScenario(type) {
-        if (type === 'excellent') {
-            document.getElementById('houses').value = 60;
-            document.getElementById('yieldPerHouse').value = 7500;
-            document.getElementById('priceSyp').value = 8000;
-        } else if (type === 'moderate') {
-            document.getElementById('houses').value = 60;
-            document.getElementById('yieldPerHouse').value = 5000;
-            document.getElementById('priceSyp').value = 6000;
-        } else if (type === 'low') {
-            document.getElementById('houses').value = 60;
-            document.getElementById('yieldPerHouse').value = 4000;
-            document.getElementById('priceSyp').value = 3500;
+    function setScenario(h, y, p, ex, ci, cp, ct, cm, cr) {
+        const fields = {
+            'houses': h, 'yieldPerHouse': y, 'priceSyp': p, 'exchangeRate': ex,
+            'costInputs': ci, 'costPackaging': cp, 'costTransport': ct,
+            'costMaintenance': cm, 'commissionRate': cr
+        };
+        for (let id in fields) {
+            document.getElementById(id).value = fields[id];
+            const range = document.getElementById(id + 'Range');
+            if (range) range.value = fields[id];
         }
         calculate();
     }
