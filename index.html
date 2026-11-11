@@ -9,7 +9,7 @@
         :root {
             --primary: #059669;
             --primary-light: #10b981;
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --card-bg: #ffffff;
             --text-main: #0f172a;
             --text-muted: #475569;
@@ -20,85 +20,104 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             margin: 0;
-            padding: 30px 20px;
+            padding: 20px;
             direction: rtl;
             text-align: right;
         }
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             margin: 0 auto;
         }
-        header {
+        .header-banner {
+            background: linear-gradient(135deg, #047857, #059669);
+            color: white;
+            padding: 25px;
+            border-radius: 16px;
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
         }
-        header h1 {
-            color: var(--primary);
-            font-size: 2.2rem;
-            margin-bottom: 8px;
-            font-weight: 800;
+        .header-banner h1 {
+            margin: 0 0 8px 0;
+            font-size: 1.8rem;
         }
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
+        .header-banner p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1rem;
         }
-        .main-layout {
+        .scenarios-bar {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        .btn-scenario {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #334155;
+        }
+        .btn-scenario:hover {
+            background: #059669;
+            color: white;
+            border-color: #059669;
+        }
+        .grid {
             display: grid;
-            grid-template-columns: 1.1fr 0.9fr;
-            gap: 25px;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
         }
         @media (max-width: 900px) {
-            .main-layout {
+            .grid {
                 grid-template-columns: 1fr;
             }
         }
         .card {
             background: var(--card-bg);
-            padding: 25px;
+            padding: 20px;
             border-radius: 16px;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
-            margin-bottom: 25px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+            margin-bottom: 20px;
             border: 1px solid #e2e8f0;
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.35rem;
+            font-size: 1.2rem;
             border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
             color: var(--text-main);
-            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        .form-group {
+        .slider-group {
             margin-bottom: 18px;
         }
-        label {
-            display: block;
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
             font-weight: 600;
-            margin-bottom: 6px;
             font-size: 0.95rem;
-            color: #334155;
+            margin-bottom: 5px;
         }
-        input {
+        .slider-header span:last-child {
+            color: var(--primary);
+        }
+        input[type="range"] {
             width: 100%;
-            padding: 12px 15px;
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 1.05rem;
-            box-sizing: border-box;
-            text-align: right; /* الأرقام والمؤشرات متناسقة */
-            background-color: #fff;
-            color: var(--text-main);
-            transition: all 0.2s ease;
-        }
-        input:focus {
-            outline: none;
-            border-color: var(--primary-light);
-            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+            accent-color: var(--primary);
+            cursor: pointer;
         }
         .results-box {
             background: #f8fafc;
             border: 1px solid #e2e8f0;
-            padding: 20px;
+            padding: 15px;
             border-radius: 12px;
             margin-top: 15px;
         }
@@ -106,101 +125,93 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
         }
         .result-item span:first-child {
             color: var(--text-muted);
-            font-weight: 500;
         }
         .result-item span:last-child {
-            font-weight: 700;
+            font-weight: bold;
             color: var(--primary);
-        }
-        .net-profit-row {
-            border-top: 2px dashed #cbd5e1;
-            padding-top: 15px;
-            margin-top: 15px;
-        }
-        .net-profit-row span:last-child {
-            font-size: 1.4rem;
-            color: #059669;
         }
         .chart-container {
             position: relative;
             height: 280px;
-            margin-top: 15px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header>
-        <h1>الحاسبة المالية المتقدمة للبيوت البلاستيكية</h1>
-        <p>نظام إداري مالي تفاعلي لدراسة الجدوى ومتابعة الأرباح (بسعر صرف 14,650 ل.س / $)</p>
-    </header>
+    
+    <!-- بانر العنوان -->
+    <div class="header-banner">
+        <h1>المحاسب الزراعي للبيوت البلاستيكية</h1>
+        <p>حاسبة متخصصة لجدوى زراعة البندورة المحمية (منطقة بانياس والساحل السوري)</p>
+    </div>
 
-    <div class="main-layout">
+    <!-- أزرار السيناريوهات السريعة -->
+    <div class="scenarios-bar">
+        <button class="btn-scenario" onclick="setScenario('excellent')">⭐ عروة ممتازة (إنتاج عالي)</button>
+        <button class="btn-scenario" onclick="setScenario('moderate')">📊 عروة متوسطة (طبيعي)</button>
+        <button class="btn-scenario" onclick="setScenario('low')">⚠️ سوق منخفض (أسوأ الأحوال)</button>
+    </div>
+
+    <div class="grid">
         
-        <!-- القسم الأيمن: لوحة المدخلات والتعديل -->
+        <!-- القسم الأيمن: أشرطة التحكم (Sliders) -->
         <div class="card">
-            <h2>إعدادات المشروع والمدخلات الأساسية</h2>
+            <h2>⚙️ إعدادات ومحددات المشروع</h2>
             
-            <div class="form-group">
-                <label for="houses">عدد البيوت البلاستيكية:</label>
-                <input type="number" id="houses" value="60" min="1" oninput="calculate()">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label for="houses">عدد البيوت البلاستيكية:</label>
+                    <span id="housesVal">60</span>
+                </div>
+                <input type="range" id="houses" min="10" max="100" step="5" value="60" oninput="calculate()">
             </div>
 
-            <div class="form-group">
-                <label for="yieldPerHouse">إنتاج البيت الواحد (كيلو):</label>
-                <input type="number" id="yieldPerHouse" value="5000" min="100" step="100" oninput="calculate()">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label for="yieldPerHouse">إنتاج البيت الواحد (كيلو):</label>
+                    <span id="yieldVal">5,000 كغ</span>
+                </div>
+                <input type="range" id="yieldPerHouse" min="3000" max="9000" step="200" value="5000" oninput="calculate()">
             </div>
 
-            <div class="form-group">
-                <label for="priceSyp">سعر بيع الكيلو (ليرة سورية):</label>
-                <input type="number" id="priceSyp" value="6000" min="100" step="100" oninput="calculate()">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label for="priceSyp">سعر بيع الكيلو في السوق (ل.س):</label>
+                    <span id="priceVal">6,000 ل.س</span>
+                </div>
+                <input type="range" id="priceSyp" min="1000" max="15000" step="500" value="6000" oninput="calculate()">
             </div>
 
-            <div class="form-group">
-                <label for="exchangeRate">سعر الصرف (ل.س / دولار):</label>
-                <input type="number" id="exchangeRate" value="14650" min="1" oninput="calculate()">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label for="exchangeRate">سعر صرف الدولار (ل.س / $):</label>
+                    <span id="exchangeVal">14,650 ل.س</span>
+                </div>
+                <input type="range" id="exchangeRate" min="10000" max="25000" step="250" value="14650" oninput="calculate()">
             </div>
 
-            <hr style="border:0; border-top:1px solid #e2e8f0; margin: 25px 0;">
+            <hr style="border:0; border-top:1px solid #e2e8f0; margin: 20px 0;">
 
-            <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">تكاليف البيت الواحد (بالدولار الأمريكي):</h3>
-
-            <div class="form-group">
-                <label for="costInputs">مستلزمات الزراعة (أغراس، أسمدة، أدوية):</label>
-                <input type="number" id="costInputs" value="90" min="0" step="5" oninput="calculate()">
-            </div>
-
-            <div class="form-group">
-                <label for="costPackaging">صناديق الفلين والتعبئة:</label>
-                <input type="number" id="costPackaging" value="40" min="0" step="5" oninput="calculate()">
-            </div>
-
-            <div class="form-group">
-                <label for="costTransport">أجور النقل والتعتيل:</label>
-                <input type="number" id="costTransport" value="25" min="0" step="5" oninput="calculate()">
-            </div>
-
-            <div class="form-group">
-                <label for="costMaintenance">الصيانة والطوارئ:</label>
-                <input type="number" id="costMaintenance" value="15" min="0" step="5" oninput="calculate()">
-            </div>
-
-            <div class="form-group">
-                <label for="commissionRate">عمولة سوق الهال (%):</label>
-                <input type="number" id="commissionRate" value="6" min="0" max="20" step="0.5" oninput="calculate()">
+            <div class="slider-group">
+                <div class="slider-header">
+                    <label for="costPerHouse">إجمالي تكاليف البيت الواحد (زراعة + فلين + نقل + طوارئ):</label>
+                    <span id="costVal">$170</span>
+                </div>
+                <input type="range" id="costPerHouse" min="100" max="300" step="10" value="170" oninput="calculate()">
             </div>
         </div>
 
         <!-- القسم الأيسر: النتائج والرسوم البيانية -->
         <div>
             <div class="card">
-                <h2>الملخص المالي والنتائج التشغيلية</h2>
+                <h2>📈 الملخص المالي وتحليل الأداء</h2>
                 <div class="results-box">
                     <div class="result-item">
                         <span>إجمالي الإنتاج الكلي:</span>
@@ -215,24 +226,25 @@
                         <span id="resTotalCost">$0</span>
                     </div>
                     <div class="result-item">
-                        <span>عمولة سوق الهال:</span>
+                        <span>عمولة سوق الهال (6%):</span>
                         <span id="resCommission">$0</span>
                     </div>
-                    <div class="result-item net-profit-row">
-                        <span>صافي الربح النهائي:</span>
-                        <span id="resNetProfit">$0</span>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
+                        <span style="font-size: 1.15rem; color: #0f172a; font-weight: bold;">صافي الربح النهائي:</span>
+                        <span id="resNetProfit" style="font-size: 1.3rem; color: #059669;">$0</span>
                     </div>
-                    <div class="result-item" style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
+                    <div class="result-item">
                         <span>نقطة التعادل (للكيلو الواحد):</span>
                         <span id="resBreakEven" style="color: #2563eb;">0 ل.س</span>
                     </div>
                 </div>
             </div>
 
+            <!-- الرسم البياني المنحني مثل صورتك -->
             <div class="card">
-                <h2>توزيع المصاريف التشغيلية</h2>
+                <h2>📊 منحنى حساسية الأرباح حسب سعر الكيلو</h2>
                 <div class="chart-container">
-                    <canvas id="costChart"></canvas>
+                    <canvas id="profitChart"></canvas>
                 </div>
             </div>
         </div>
@@ -241,34 +253,38 @@
 </div>
 
 <script>
-    let costChartInstance = null;
+    let profitChartInstance = null;
 
     function calculate() {
-        const houses = parseFloat(document.getElementById('houses').value) || 0;
-        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value) || 0;
-        const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
-        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 14650;
-        
-        const costInputs = parseFloat(document.getElementById('costInputs').value) || 0;
-        const costPackaging = parseFloat(document.getElementById('costPackaging').value) || 0;
-        const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
-        const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
-        const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
+        // قراءة قيم الـ Sliders
+        const houses = parseFloat(document.getElementById('houses').value);
+        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value);
+        const priceSyp = parseFloat(document.getElementById('priceSyp').value);
+        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value);
+        const costPerHouse = parseFloat(document.getElementById('costPerHouse').value);
+        const commissionRate = 0.06;
 
+        // تحديث النصوص بجانب الـ Sliders
+        document.getElementById('housesVal').innerText = houses;
+        document.getElementById('yieldVal').innerText = yieldPerHouse.toLocaleString() + ' كغ';
+        document.getElementById('priceVal').innerText = priceSyp.toLocaleString() + ' ل.س';
+        document.getElementById('exchangeVal').innerText = exchangeRate.toLocaleString() + ' ل.س';
+        document.getElementById('costVal').innerText = '$' + costPerHouse;
+
+        // العمليات الحسابية
         const totalKg = houses * yieldPerHouse;
         const priceUsd = priceSyp / exchangeRate;
         const totalRevenueUsd = totalKg * priceUsd;
 
-        const costPerHouseTotal = costInputs + costPackaging + costTransport + costMaintenance;
-        const totalFarmCostUsd = houses * costPerHouseTotal;
+        const totalFarmCostUsd = houses * costPerHouse;
         const commissionUsd = totalRevenueUsd * commissionRate;
-        
         const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
         const netProfitUsd = totalRevenueUsd - totalExpensesUsd;
 
         const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate));
         const breakEvenSyp = breakEvenUsd * exchangeRate;
 
+        // عرض النتائج
         document.getElementById('resTotalKg').innerText = totalKg.toLocaleString() + ' كيلو';
         document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
         document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
@@ -276,41 +292,79 @@
         document.getElementById('resNetProfit').innerText = '$' + Math.round(netProfitUsd).toLocaleString();
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
-        updateChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
+        // تحديث الرسم البياني الخطي
+        updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate, priceSyp);
     }
 
-    function updateChart(inputs, packaging, transport, maintenance) {
-        const ctx = document.getElementById('costChart').getContext('2d');
+    function updateChart(houses, yieldPerHouse, costPerHouse, exchangeRate, currentPrice) {
+        const ctx = document.getElementById('profitChart').getContext('2d');
         
-        if (costChartInstance) {
-            costChartInstance.destroy();
+        // توليد نقاط الأسعار للرسم البياني المنحني
+        const prices = [];
+        const profits = [];
+        const totalKg = houses * yieldPerHouse;
+        const totalCost = houses * costPerHouse;
+
+        for (let p = 2000; p <= 14000; p += 1500) {
+            prices.push(p.toLocaleString() + ' ل.س');
+            const pUsd = p / exchangeRate;
+            const rev = totalKg * pUsd;
+            const comm = rev * 0.06;
+            const net = rev - (totalCost + comm);
+            profits.push(Math.round(net));
         }
 
-        costChartInstance = new Chart(ctx, {
-            type: 'doughnut',
+        if (profitChartInstance) {
+            profitChartInstance.destroy();
+        }
+
+        profitChartInstance = new Chart(ctx, {
+            type: 'line',
             data: {
-                labels: ['مستلزمات الزراعة', 'صناديق الفلين والتعبئة', 'أجور النقل والتعتيل', 'الصيانة والطوارئ'],
+                labels: prices,
                 datasets: [{
-                    data: [inputs, packaging, transport, maintenance],
-                    backgroundColor: ['#059669', '#3b82f6', '#f59e0b', '#ef4444']
+                    label: 'صافي الربح ($)',
+                    data: profits,
+                    borderColor: '#059669',
+                    backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                    borderWidth: 3,
+                    fill: true,
+                    tension: 0.3
                 }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: {
-                                family: 'system-ui',
-                                size: 13
-                            }
-                        }
+                    legend: { display: false }
+                },
+                scales: {
+                    y: {
+                        grid: { color: '#f1f5f9' }
+                    },
+                    x: {
+                        grid: { display: false }
                     }
                 }
             }
         });
+    }
+
+    function setScenario(type) {
+        if (type === 'excellent') {
+            document.getElementById('houses').value = 60;
+            document.getElementById('yieldPerHouse').value = 7500;
+            document.getElementById('priceSyp').value = 8000;
+        } else if (type === 'moderate') {
+            document.getElementById('houses').value = 60;
+            document.getElementById('yieldPerHouse').value = 5000;
+            document.getElementById('priceSyp').value = 6000;
+        } else if (type === 'low') {
+            document.getElementById('houses').value = 60;
+            document.getElementById('yieldPerHouse').value = 4000;
+            document.getElementById('priceSyp').value = 3500;
+        }
+        calculate();
     }
 
     window.onload = calculate;
