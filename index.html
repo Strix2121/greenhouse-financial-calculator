@@ -25,7 +25,7 @@
             text-align: right;
         }
         .container {
-            max-width: 1300px;
+            max-width: 1350px;
             margin: 0 auto;
         }
         .header-banner {
@@ -45,7 +45,6 @@
             font-size: 0.95rem;
             opacity: 0.9;
         }
-        /* أزرار التنقل بين الصفحتين */
         .nav-tabs {
             display: flex;
             justify-content: center;
@@ -193,9 +192,9 @@
             border-bottom: 1px dashed var(--border-color);
             padding-bottom: 5px;
         }
-        /* جدول البيوت للصفحة الثانية */
+        /* تصميم جدول الصفحة الثانية الشامل والمحاسبي */
         .houses-table-container {
-            max-height: 500px;
+            max-height: 550px;
             overflow-y: auto;
             border: 1px solid var(--border-color);
             border-radius: 8px;
@@ -204,12 +203,14 @@
         .houses-table {
             width: 100%;
             border-collapse: collapse;
+            white-space: nowrap;
         }
         .houses-table th, .houses-table td {
             border-bottom: 1px solid var(--border-color);
-            padding: 8px;
+            border-left: 1px solid #f1f5f9;
+            padding: 8px 6px;
             text-align: center;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
         .houses-table th {
             background: #f1f5f9;
@@ -220,7 +221,7 @@
             z-index: 10;
         }
         .houses-table input {
-            width: 80px;
+            width: 70px;
             padding: 4px;
             border: 1px solid var(--border-color);
             border-radius: 4px;
@@ -228,6 +229,7 @@
             font-family: 'Cairo', sans-serif;
             font-weight: 700;
             color: var(--primary);
+            font-size: 0.85rem;
         }
         .btn-action {
             background: var(--primary);
@@ -248,16 +250,16 @@
     
     <div class="header-banner">
         <h1>حاسبة البيوت البلاستيكية المالية</h1>
-        <p>نظام إداري مالي متكامل ومقسم لصفحات مستقلة</p>
+        <p>نظام محاسبي متكامل يدعم الحاسبة العامة وسجل المحاسبة الفردي للبيوت</p>
     </div>
 
-    <!-- أزرار التنقل بين الصفحات -->
+    <!-- أزرار التنقل بين الصفحتين -->
     <div class="nav-tabs">
         <button class="tab-btn active" id="tab1Btn" onclick="switchPage(1)">الصفحة الأولى: الحاسبة العامة والتحكم</button>
-        <button class="tab-btn" id="tab2Btn" onclick="switchPage(2)">الصفحة الثانية: سجل البيوت الفردية (بيت بيت)</button>
+        <button class="tab-btn" id="tab2Btn" onclick="switchPage(2)">الصفحة الثانية: سجل المحاسبة الفردي للبيوت (بيت بيت)</button>
     </div>
 
-    <!-- ==================== الصفحة الأولى (التنسيق الأساسي الأول كاملاً) ==================== -->
+    <!-- ==================== الصفحة الأولى ==================== -->
     <div id="page1" class="page-section active">
         
         <div class="scenarios-bar">
@@ -267,7 +269,6 @@
         </div>
 
         <div class="grid">
-            <!-- لوحة التحكم (سلايدرات + خانات حرة) -->
             <div class="card">
                 <h2>إعدادات المشروع والإنتاج</h2>
                 
@@ -380,7 +381,6 @@
                 </div>
             </div>
 
-            <!-- النتائج والرسوم البيانية -->
             <div>
                 <div class="card">
                     <h2>الملخص المالي وصافي الأرباح</h2>
@@ -438,34 +438,43 @@
 
     </div>
 
-    <!-- ==================== الصفحة الثانية (سجل تفاصيل البيوت الفردية) ==================== -->
+    <!-- ==================== الصفحة الثانية: نظام محاسبة البيوت المتكامل ==================== -->
     <div id="page2" class="page-section">
         <div class="card">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h2 style="margin:0; border:none;">سجل البيوت الفردية (تخصيص إنتاج وتكاليف كل بيت على حدة)</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h2 style="margin:0; border:none;">سجل المحاسبة الفردي للبيوت (كل بيت تفصيلياً)</h2>
                 <div>
                     <button class="btn-action" onclick="addHouse()">+ إضافة بيت جديد</button>
                     <button class="btn-action" style="background:#ef4444;" onclick="removeHouse()">حذف الأخير</button>
                 </div>
             </div>
-            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 15px;">هنا يمكنك تعديل بيانات كل بيت على حدة، وسيتم جمع النتائج وإرسالها للملخص العام تلقائياً:</p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">يتم حساب التكاليف، سعر الصرف، عمولة سوق الهال (القمسيون)، وحصة المزارع لكل بيت على حدة، مع استعراض الإجمالي بالأسفل:</p>
             
             <div class="houses-table-container">
-                <table class="houses-table">
+                <table class="houses-table" id="accountingTable">
                     <thead>
                         <tr>
-                            <th>البيت #</th>
+                            <th>البيت</th>
                             <th>الإنتاج (كغ)</th>
                             <th>البذور ($)</th>
                             <th>النايلون ($)</th>
                             <th>الأسمدة ($)</th>
                             <th>المبيدات ($)</th>
                             <th>التشغيل ($)</th>
+                            <th>إجمالي التكلفة ($)</th>
+                            <th>المبيعات ($)</th>
+                            <th>القمسيون ($)</th>
+                            <th>صافي الربح ($)</th>
+                            <th>حصة المزارع ($)</th>
+                            <th>صافي المالك ($)</th>
                         </tr>
                     </thead>
                     <tbody id="housesTableBody">
-                        <!-- تعبئة ديناميكية -->
+                        <!-- تعبئة تفصيلية -->
                     </tbody>
+                    <tfoot id="housesTableFooter" style="background: #f8fafc; font-weight: 800; position: sticky; bottom: 0; z-index: 10;">
+                        <!-- مجاميع محاسبية نهائية -->
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -477,7 +486,6 @@
     let costChartInstance = null;
     let comparisonChartInstance = null;
 
-    // مصفوفة افتراضية لـ 5 بيوت للصفحة الثانية
     let housesData = [
         { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
         { yield: 5000, seeds: 80, plastic: 150, fertilizers: 120, pesticides: 80, other: 80 },
@@ -498,26 +506,73 @@
 
     function renderTable() {
         const tbody = document.getElementById('housesTableBody');
+        const tfoot = document.getElementById('housesTableFooter');
         tbody.innerHTML = '';
-        housesData.forEach((house, index) => {
+
+        const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
+        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 1;
+        const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
+        const farmerShareRate = (parseFloat(document.getElementById('farmerShareRate').value) || 0) / 100;
+        const priceUsd = priceSyp / exchangeRate;
+
+        let sumKg = 0, sumCost = 0, sumRev = 0, sumComm = 0, sumGross = 0, sumFarmer = 0, sumOwner = 0;
+
+        housesData.forEach((h, index) => {
+            const hCost = h.seeds + h.plastic + h.fertilizers + h.pesticides + h.other;
+            const hRev = h.yield * priceUsd;
+            const hComm = hRev * commissionRate;
+            const hGross = hRev - (hCost + hComm);
+            const hFarmer = hGross > 0 ? hGross * farmerShareRate : 0;
+            const hOwner = hGross - hFarmer;
+
+            sumKg += h.yield;
+            sumCost += hCost;
+            sumRev += hRev;
+            sumComm += hComm;
+            sumGross += hGross;
+            sumFarmer += hFarmer;
+            sumOwner += hOwner;
+
             tbody.innerHTML += `
                 <tr>
                     <td style="font-weight:700;">بيت ${index + 1}</td>
-                    <td><input type="number" value="${house.yield}" oninput="updateHouse(${index}, 'yield', this.value)"></td>
-                    <td><input type="number" value="${house.seeds}" oninput="updateHouse(${index}, 'seeds', this.value)"></td>
-                    <td><input type="number" value="${house.plastic}" oninput="updateHouse(${index}, 'plastic', this.value)"></td>
-                    <td><input type="number" value="${house.fertilizers}" oninput="updateHouse(${index}, 'fertilizers', this.value)"></td>
-                    <td><input type="number" value="${house.pesticides}" oninput="updateHouse(${index}, 'pesticides', this.value)"></td>
-                    <td><input type="number" value="${house.other}" oninput="updateHouse(${index}, 'other', this.value)"></td>
+                    <td><input type="number" value="${h.yield}" oninput="updateHouse(${index}, 'yield', this.value)"></td>
+                    <td><input type="number" value="${h.seeds}" oninput="updateHouse(${index}, 'seeds', this.value)"></td>
+                    <td><input type="number" value="${h.plastic}" oninput="updateHouse(${index}, 'plastic', this.value)"></td>
+                    <td><input type="number" value="${h.fertilizers}" oninput="updateHouse(${index}, 'fertilizers', this.value)"></td>
+                    <td><input type="number" value="${h.pesticides}" oninput="updateHouse(${index}, 'pesticides', this.value)"></td>
+                    <td><input type="number" value="${h.other}" oninput="updateHouse(${index}, 'other', this.value)"></td>
+                    <td style="color:#ef4444; font-weight:bold;">$${Math.round(hCost)}</td>
+                    <td style="color:#3b82f6; font-weight:bold;">$${Math.round(hRev)}</td>
+                    <td>$${Math.round(hComm)}</td>
+                    <td>$${Math.round(hGross)}</td>
+                    <td style="color:#d97706;">$${Math.round(hFarmer)}</td>
+                    <td style="color:#059669; font-weight:bold;">$${Math.round(hOwner)}</td>
                 </tr>
             `;
         });
+
+        // شريط المجاميع السفلي للجدول المحاسبي
+        tfoot.innerHTML = `
+            <tr>
+                <td style="padding:10px;">الإجمالي الكلي</td>
+                <td>${sumKg.toLocaleString()} كغ</td>
+                <td colspan="5">البيوت: ${housesData.length} بيت</td>
+                <td style="color:#ef4444;">$${Math.round(sumCost).toLocaleString()}</td>
+                <td style="color:#3b82f6;">$${Math.round(sumRev).toLocaleString()}</td>
+                <td>$${Math.round(sumComm).toLocaleString()}</td>
+                <td>$${Math.round(sumGross).toLocaleString()}</td>
+                <td style="color:#d97706;">$${Math.round(sumFarmer).toLocaleString()}</td>
+                <td style="color:#059669;">$${Math.round(sumOwner).toLocaleString()}</td>
+            </tr>
+        `;
+
         calculate();
     }
 
     function updateHouse(index, field, value) {
         housesData[index][field] = parseFloat(value) || 0;
-        calculate();
+        renderTable();
     }
 
     function addHouse() {
@@ -537,14 +592,14 @@
         const val = document.getElementById(id).value;
         const range = document.getElementById(id + 'Range');
         if (range) range.value = val;
-        calculate();
+        renderTable();
     }
 
     function syncFromRange(id) {
         const range = document.getElementById(id + 'Range');
         const input = document.getElementById(id);
         if (input) input.value = range.value;
-        calculate();
+        renderTable();
     }
 
     function calculate() {
@@ -672,11 +727,10 @@
             const range = document.getElementById(id + 'Range');
             if (range) range.value = fields[id];
         }
-        calculate();
+        renderTable();
     }
 
     window.onload = function() {
-        calculate();
         renderTable();
     };
 </script>
