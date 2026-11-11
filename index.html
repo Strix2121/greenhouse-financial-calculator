@@ -172,13 +172,13 @@
     
     <div class="header-banner">
         <h1>حاسبة البيوت البلاستيكية المالية</h1>
-        <p>تحكم مرن مع حساب هامش ونسبة أرباح المزارع</p>
+        <p>نظام تحكم كامل مع حساب حصة المزارع من الأرباح</p>
     </div>
 
     <div class="scenarios-bar">
-        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 90, 40, 25, 15, 6)">نموذج أساسي</button>
-        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 50, 30, 20, 6)">عروة ممتازة</button>
-        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 80, 35, 20, 10, 6)">سوق منخفض</button>
+        <button class="btn-scenario" onclick="setScenario(60, 5000, 6000, 14650, 90, 40, 25, 15, 6, 20)">نموذج أساسي</button>
+        <button class="btn-scenario" onclick="setScenario(60, 7500, 8000, 14650, 100, 50, 30, 20, 6, 20)">عروة ممتازة</button>
+        <button class="btn-scenario" onclick="setScenario(60, 4000, 3500, 14650, 80, 35, 20, 10, 6, 20)">سوق منخفض</button>
     </div>
 
     <div class="grid">
@@ -219,7 +219,7 @@
                 <input type="range" id="exchangeRateRange" min="1000" max="50000" step="50" value="14650" oninput="syncFromRange('exchangeRate')">
             </div>
 
-            <div class="section-title">تكاليف البيت الواحد ($)</div>
+            <div class="section-title">تكاليف البيت الواحد ($) والنسب</div>
 
             <div class="control-group">
                 <div class="control-header">
@@ -260,12 +260,21 @@
                 </div>
                 <input type="range" id="commissionRateRange" min="0" max="20" step="0.5" value="6" oninput="syncFromRange('commissionRate')">
             </div>
+
+            <!-- البند الجديد: نسبة المزارع من الأرباح -->
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="farmerShareRate">حصة المزارع من الأرباح (%):</label>
+                    <input type="number" id="farmerShareRate" class="number-input" value="20" step="1" oninput="syncFromInput('farmerShareRate')">
+                </div>
+                <input type="range" id="farmerShareRateRange" min="0" max="50" step="1" value="20" oninput="syncFromRange('farmerShareRate')">
+            </div>
         </div>
 
         <!-- النتائج والرسوم -->
         <div>
             <div class="card">
-                <h2>الملخص المالي وهامش الربح</h2>
+                <h2>الملخص المالي وصافي الأرباح</h2>
                 <div class="results-box">
                     <div class="result-item">
                         <span>إجمالي الإنتاج:</span>
@@ -283,14 +292,18 @@
                         <span>عمولة سوق الهال:</span>
                         <span id="resCommission">$0</span>
                     </div>
-                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
-                        <span style="font-size: 1.1rem; font-weight: 800;">صافي الربح النهائي:</span>
-                        <span id="resNetProfit" style="font-size: 1.25rem; color: #059669;">$0</span>
+                    <div class="result-item">
+                        <span>صافي الربح الإجمالي (قبل الحصة):</span>
+                        <span id="resGrossProfit">$0</span>
                     </div>
-                    <!-- البند الجديد: نسبة ربح المزارع على التكلفة -->
-                    <div class="result-item" style="background: #e6f4ea; padding: 8px; border-radius: 6px; margin-top: 8px;">
-                        <span style="font-weight: 700; color: #065f46;">نسبة ربح المزارع عالتكلفة:</span>
-                        <span id="resProfitPercentage" style="font-size: 1.15rem; color: #065f46;">0%</span>
+                    <!-- تفصيل حصة المزارع وصافي المالك -->
+                    <div class="result-item" style="background: #f1f5f9; padding: 8px; border-radius: 6px; margin-top: 5px;">
+                        <span style="font-weight: 700; color: #334155;">حصة المزارع من الربح:</span>
+                        <span id="resFarmerShareAmount" style="color: #d97706;">$0</span>
+                    </div>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
+                        <span style="font-size: 1.1rem; font-weight: 800;">صافي ربح المالك (النهائي):</span>
+                        <span id="resNetProfit" style="font-size: 1.25rem; color: #059669;">$0</span>
                     </div>
                     <div class="result-item" style="margin-top: 8px;">
                         <span>نقطة التعادل للكيلو:</span>
@@ -338,6 +351,7 @@
         const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
         const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
         const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
+        const farmerShareRate = (parseFloat(document.getElementById('farmerShareRate').value) || 0) / 100;
 
         const totalKg = houses * yieldPerHouse;
         const priceUsd = priceSyp / exchangeRate;
@@ -348,11 +362,11 @@
         const commissionUsd = totalRevenueUsd * commissionRate;
         
         const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
-        const netProfitUsd = totalRevenueUsd - totalExpensesUsd;
+        const grossProfitUsd = totalRevenueUsd - totalExpensesUsd;
 
-        // حساب نسبة ربح المزارع على التكاليف الإجمالية بالمئة
-        const totalAllCosts = totalFarmCostUsd + commissionUsd;
-        const profitPercentage = totalAllCosts > 0 ? (netProfitUsd / totalAllCosts) * 100 : 0;
+        // حساب حصة المزارع وصافي ربح المالك
+        const farmerShareAmount = grossProfitUsd > 0 ? grossProfitUsd * farmerShareRate : 0;
+        const ownerNetProfitUsd = grossProfitUsd - farmerShareAmount;
 
         const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate || 1));
         const breakEvenSyp = breakEvenUsd * exchangeRate;
@@ -361,8 +375,9 @@
         document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
         document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
         document.getElementById('resCommission').innerText = '$' + Math.round(commissionUsd).toLocaleString();
-        document.getElementById('resNetProfit').innerText = '$' + Math.round(netProfitUsd).toLocaleString();
-        document.getElementById('resProfitPercentage').innerText = profitPercentage.toFixed(1) + '%';
+        document.getElementById('resGrossProfit').innerText = '$' + Math.round(grossProfitUsd).toLocaleString();
+        document.getElementById('resFarmerShareAmount').innerText = '$' + Math.round(farmerShareAmount).toLocaleString();
+        document.getElementById('resNetProfit').innerText = '$' + Math.round(ownerNetProfitUsd).toLocaleString();
         document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
 
         updateChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
@@ -392,11 +407,11 @@
         });
     }
 
-    function setScenario(h, y, p, ex, ci, cp, ct, cm, cr) {
+    function setScenario(h, y, p, ex, ci, cp, ct, cm, cr, fs) {
         const fields = {
             'houses': h, 'yieldPerHouse': y, 'priceSyp': p, 'exchangeRate': ex,
             'costInputs': ci, 'costPackaging': cp, 'costTransport': ct,
-            'costMaintenance': cm, 'commissionRate': cr
+            'costMaintenance': cm, 'commissionRate': cr, 'farmerShareRate': fs
         };
         for (let id in fields) {
             document.getElementById(id).value = fields[id];
