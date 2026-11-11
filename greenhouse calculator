@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الحاسبة المالية المتقدمة للبيوت البلاستيكية</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            direction: rtl;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        header h1 {
+            color: var(--primary-dark);
+            margin-bottom: 5px;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .card {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 10px;
+            color: #334155;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            text-align: left;
+        }
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        .results-box {
+            background: #f1f5f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+        .result-item span:last-child {
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>الحاسبة المالية المتقدمة للبيوت البلاستيكية</h1>
+        <p>نظام إداري مالي تفاعلي (بسعر صرف 14,650 ل.س / $)</p>
+    </header>
+
+    <div class="grid">
+        <!-- لوحة المدخلات -->
+        <div class="card">
+            <h2>إعدادات المشروع والمدخلات</h2>
+            
+            <div class="form-group">
+                <label for="houses">عدد البيوت البلاستيكية:</label>
+                <input type="number" id="houses" value="60" min="1" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="yieldPerHouse">إنتاج البيت الواحد (كيلو):</label>
+                <input type="number" id="yieldPerHouse" value="5000" min="100" step="100" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="priceSyp">سعر بيع الكيلو (ليرة سورية):</label>
+                <input type="number" id="priceSyp" value="6000" min="100" step="100" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="exchangeRate">سعر الصرف (ل.س / دولار):</label>
+                <input type="number" id="exchangeRate" value="14650" min="1" oninput="calculate()">
+            </div>
+
+            <hr style="border:0; border-top:1px solid var(--border-color); margin: 20px 0;">
+
+            <h3 style="font-size: 1rem; color: #64748b;">التكاليف للبيت الواحد (بالدولار):</h3>
+
+            <div class="form-group">
+                <label for="costInputs">مستلزمات الزراعة (أغراس، أسمدة، أدوية):</label>
+                <input type="number" id="costInputs" value="90" min="0" step="5" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="costPackaging">صناديق الفلين والتعبئة:</label>
+                <input type="number" id="costPackaging" value="40" min="0" step="5" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="costTransport">أجور النقل والتعتيل:</label>
+                <input type="number" id="costTransport" value="25" min="0" step="5" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="costMaintenance">الصيانة والطوارئ:</label>
+                <input type="number" id="costMaintenance" value="15" min="0" step="5" oninput="calculate()">
+            </div>
+
+            <div class="form-group">
+                <label for="commissionRate">عمولة سوق الهال (%):</label>
+                <input type="number" id="commissionRate" value="6" min="0" max="20" step="0.5" oninput="calculate()">
+            </div>
+        </div>
+
+        <!-- لوحة النتائج والتحليل -->
+        <div>
+            <div class="card">
+                <h2>الملخص المالي والنتائج</h2>
+                <div class="results-box">
+                    <div class="result-item">
+                        <span>إجمالي الإنتاج الكلي:</span>
+                        <span id="resTotalKg">0 كيلو</span>
+                    </div>
+                    <div class="result-item">
+                        <span>إجمالي المبيعات الإجمالية:</span>
+                        <span id="resTotalRevenue">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>إجمالي التكاليف الشاملة:</span>
+                        <span id="resTotalCost">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>عمولة سوق الهال:</span>
+                        <span id="resCommission">$0</span>
+                    </div>
+                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
+                        <span style="font-weight: bold; color: #0f172a;">صافي الربح النهائي:</span>
+                        <span id="resNetProfit" style="font-size: 1.2rem; color: #059669;">$0</span>
+                    </div>
+                    <div class="result-item">
+                        <span>نقطة التعادل (للكيلو الواحد):</span>
+                        <span id="resBreakEven">0 ل.س</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>توزيع المصاريف</h2>
+                <div class="chart-container">
+                    <canvas id="costChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let costChartInstance = null;
+
+    function calculate() {
+        const houses = parseFloat(document.getElementById('houses').value) || 0;
+        const yieldPerHouse = parseFloat(document.getElementById('yieldPerHouse').value) || 0;
+        const priceSyp = parseFloat(document.getElementById('priceSyp').value) || 0;
+        const exchangeRate = parseFloat(document.getElementById('exchangeRate').value) || 14650;
+        
+        const costInputs = parseFloat(document.getElementById('costInputs').value) || 0;
+        const costPackaging = parseFloat(document.getElementById('costPackaging').value) || 0;
+        const costTransport = parseFloat(document.getElementById('costTransport').value) || 0;
+        const costMaintenance = parseFloat(document.getElementById('costMaintenance').value) || 0;
+        const commissionRate = (parseFloat(document.getElementById('commissionRate').value) || 0) / 100;
+
+        const totalKg = houses * yieldPerHouse;
+        const priceUsd = priceSyp / exchangeRate;
+        const totalRevenueUsd = totalKg * priceUsd;
+
+        const costPerHouseTotal = costInputs + costPackaging + costTransport + costMaintenance;
+        const totalFarmCostUsd = houses * costPerHouseTotal;
+        const commissionUsd = totalRevenueUsd * commissionRate;
+        
+        const totalExpensesUsd = totalFarmCostUsd + commissionUsd;
+        const netProfitUsd = totalRevenueUsd - totalExpensesUsd;
+
+        const breakEvenUsd = totalFarmCostUsd / (totalKg * (1 - commissionRate));
+        const breakEvenSyp = breakEvenUsd * exchangeRate;
+
+        document.getElementById('resTotalKg').innerText = totalKg.toLocaleString() + ' كيلو';
+        document.getElementById('resTotalRevenue').innerText = '$' + Math.round(totalRevenueUsd).toLocaleString();
+        document.getElementById('resTotalCost').innerText = '$' + Math.round(totalFarmCostUsd).toLocaleString();
+        document.getElementById('resCommission').innerText = '$' + Math.round(commissionUsd).toLocaleString();
+        document.getElementById('resNetProfit').innerText = '$' + Math.round(netProfitUsd).toLocaleString();
+        document.getElementById('resBreakEven').innerText = Math.round(breakEvenSyp).toLocaleString() + ' ل.س';
+
+        updateChart(houses * costInputs, houses * costPackaging, houses * costTransport, houses * costMaintenance);
+    }
+
+    function updateChart(inputs, packaging, transport, maintenance) {
+        const ctx = document.getElementById('costChart').getContext('2d');
+        
+        if (costChartInstance) {
+            costChartInstance.destroy();
+        }
+
+        costChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['مستلزمات الزراعة', 'صناديق الفلين والتعبئة', 'أجور النقل والتعتيل', 'الصيانة والطوارئ'],
+                datasets: [{
+                    data: [inputs, packaging, transport, maintenance],
+                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        });
+    }
+
+    window.onload = calculate;
+</script>
+
+</body>
+</html>
