@@ -7,99 +7,128 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #10b981;
-            --primary-dark: #059669;
+            --primary: #059669;
+            --primary-light: #10b981;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-color: #1e293b;
-            --border-color: #e2e8f0;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border-color: #cbd5e1;
         }
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-color);
-            color: var(--text-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 20px;
+            padding: 30px 20px;
             direction: rtl;
+            text-align: right;
         }
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 0 auto;
         }
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
         }
         header h1 {
-            color: var(--primary-dark);
-            margin-bottom: 5px;
+            color: var(--primary);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 800;
         }
-        .grid {
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+        .main-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 25px;
         }
-        @media (max-width: 768px) {
-            .grid {
+        @media (max-width: 900px) {
+            .main-layout {
                 grid-template-columns: 1fr;
             }
         }
         .card {
             background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
         }
         .card h2 {
             margin-top: 0;
-            font-size: 1.25rem;
-            border-bottom: 2px solid var(--border-color);
-            padding-bottom: 10px;
-            color: #334155;
+            font-size: 1.35rem;
+            border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 12px;
+            color: var(--text-main);
+            font-weight: 700;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         label {
             display: block;
             font-weight: 600;
-            margin-bottom: 5px;
-            font-size: 0.9rem;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+            color: #334155;
         }
         input {
             width: 100%;
-            padding: 10px;
+            padding: 12px 15px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 10px;
+            font-size: 1.05rem;
             box-sizing: border-box;
-            text-align: left;
+            text-align: right; /* الأرقام والمؤشرات متناسقة */
+            background-color: #fff;
+            color: var(--text-main);
+            transition: all 0.2s ease;
         }
         input:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+            border-color: var(--primary-light);
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
         }
         .results-box {
-            background: #f1f5f9;
-            padding: 15px;
-            border-radius: 8px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 20px;
+            border-radius: 12px;
             margin-top: 15px;
         }
         .result-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+        .result-item span:first-child {
+            color: var(--text-muted);
+            font-weight: 500;
         }
         .result-item span:last-child {
-            font-weight: bold;
-            color: var(--primary-dark);
+            font-weight: 700;
+            color: var(--primary);
+        }
+        .net-profit-row {
+            border-top: 2px dashed #cbd5e1;
+            padding-top: 15px;
+            margin-top: 15px;
+        }
+        .net-profit-row span:last-child {
+            font-size: 1.4rem;
+            color: #059669;
         }
         .chart-container {
             position: relative;
-            height: 250px;
+            height: 280px;
             margin-top: 15px;
         }
     </style>
@@ -109,13 +138,14 @@
 <div class="container">
     <header>
         <h1>الحاسبة المالية المتقدمة للبيوت البلاستيكية</h1>
-        <p>نظام إداري مالي تفاعلي (بسعر صرف 14,650 ل.س / $)</p>
+        <p>نظام إداري مالي تفاعلي لدراسة الجدوى ومتابعة الأرباح (بسعر صرف 14,650 ل.س / $)</p>
     </header>
 
-    <div class="grid">
-        <!-- لوحة المدخلات -->
+    <div class="main-layout">
+        
+        <!-- القسم الأيمن: لوحة المدخلات والتعديل -->
         <div class="card">
-            <h2>إعدادات المشروع والمدخلات</h2>
+            <h2>إعدادات المشروع والمدخلات الأساسية</h2>
             
             <div class="form-group">
                 <label for="houses">عدد البيوت البلاستيكية:</label>
@@ -137,9 +167,9 @@
                 <input type="number" id="exchangeRate" value="14650" min="1" oninput="calculate()">
             </div>
 
-            <hr style="border:0; border-top:1px solid var(--border-color); margin: 20px 0;">
+            <hr style="border:0; border-top:1px solid #e2e8f0; margin: 25px 0;">
 
-            <h3 style="font-size: 1rem; color: #64748b;">التكاليف للبيت الواحد (بالدولار):</h3>
+            <h3 style="font-size: 1.1rem; color: var(--text-main); margin-bottom: 15px;">تكاليف البيت الواحد (بالدولار الأمريكي):</h3>
 
             <div class="form-group">
                 <label for="costInputs">مستلزمات الزراعة (أغراس، أسمدة، أدوية):</label>
@@ -167,10 +197,10 @@
             </div>
         </div>
 
-        <!-- لوحة النتائج والتحليل -->
+        <!-- القسم الأيسر: النتائج والرسوم البيانية -->
         <div>
             <div class="card">
-                <h2>الملخص المالي والنتائج</h2>
+                <h2>الملخص المالي والنتائج التشغيلية</h2>
                 <div class="results-box">
                     <div class="result-item">
                         <span>إجمالي الإنتاج الكلي:</span>
@@ -188,24 +218,25 @@
                         <span>عمولة سوق الهال:</span>
                         <span id="resCommission">$0</span>
                     </div>
-                    <div class="result-item" style="border-top: 2px dashed #cbd5e1; padding-top: 10px; margin-top: 10px;">
-                        <span style="font-weight: bold; color: #0f172a;">صافي الربح النهائي:</span>
-                        <span id="resNetProfit" style="font-size: 1.2rem; color: #059669;">$0</span>
+                    <div class="result-item net-profit-row">
+                        <span>صافي الربح النهائي:</span>
+                        <span id="resNetProfit">$0</span>
                     </div>
-                    <div class="result-item">
+                    <div class="result-item" style="border-top: 1px solid #e2e8f0; padding-top: 10px; margin-top: 10px;">
                         <span>نقطة التعادل (للكيلو الواحد):</span>
-                        <span id="resBreakEven">0 ل.س</span>
+                        <span id="resBreakEven" style="color: #2563eb;">0 ل.س</span>
                     </div>
                 </div>
             </div>
 
             <div class="card">
-                <h2>توزيع المصاريف</h2>
+                <h2>توزيع المصاريف التشغيلية</h2>
                 <div class="chart-container">
                     <canvas id="costChart"></canvas>
                 </div>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -261,7 +292,7 @@
                 labels: ['مستلزمات الزراعة', 'صناديق الفلين والتعبئة', 'أجور النقل والتعتيل', 'الصيانة والطوارئ'],
                 datasets: [{
                     data: [inputs, packaging, transport, maintenance],
-                    backgroundColor: ['#10b981', '#3b82f6', '#f59e0b', '#ef4444']
+                    backgroundColor: ['#059669', '#3b82f6', '#f59e0b', '#ef4444']
                 }]
             },
             options: {
@@ -269,7 +300,13 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: 'bottom'
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                family: 'system-ui',
+                                size: 13
+                            }
+                        }
                     }
                 }
             }
